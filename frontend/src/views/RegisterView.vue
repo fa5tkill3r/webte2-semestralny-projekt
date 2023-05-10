@@ -1,0 +1,140 @@
+<template>
+  <v-container>
+    <v-row
+      justify='center'
+    >
+      <v-col cols='auto' md='6'>
+        <v-card>
+          <v-card-title>
+            <span class='headline'>Register</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-form
+              ref='form'
+              :readonly='loading'
+              @submit.prevent='onSubmit' >
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model='firstName.value.value'
+                    :error-messages='firstName.errorMessage.value'
+                    label='First Name'
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model='lastName.value.value'
+                    :error-messages='lastName.errorMessage.value'
+                    label='Last Name'
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-text-field
+                v-model='email.value.value'
+                :error-messages='email.errorMessage.value'
+                label='Email'
+              ></v-text-field>
+
+              <v-text-field
+                v-model='password.value.value'
+                :error-messages='password.errorMessage.value'
+                label='Password'
+                type='password'
+              ></v-text-field>
+
+              <v-text-field
+                v-model='passwordConfirmation.value.value'
+                :error-messages='passwordConfirmation.errorMessage.value'
+                label='Password again'
+                type='password'
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color='primary'
+              type='submit'
+              :loading='loading'
+              @click='submit'
+            >Register</v-btn>
+
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script setup>
+
+import { useField, useForm } from 'vee-validate'
+import * as yup from 'yup'
+import { ref } from 'vue'
+import { ky } from '@/lib/ky'
+import router from '@/router'
+import { useAppStore } from '@/store/app'
+
+const form = ref(null)
+const store = useAppStore()
+const loading = ref(false)
+
+const validationSchema = yup.object().shape({
+  firstName: yup.string().required('This field is required'),
+  lastName: yup.string().required('This field is required'),
+  email: yup.string().required().email(),
+  password: yup.string().required('Password is required'),
+  passwordConfirmation: yup.string()
+    .oneOf([yup.ref('password')], 'Passwords must match')
+    .required('Password confirmation is required'),
+})
+
+const { handleSubmit, validate } = useForm({
+  validationSchema,
+})
+
+const firstName = useField('firstName', validationSchema)
+const lastName = useField('lastName', validationSchema)
+const email = useField('email', validationSchema)
+const password = useField('password', validationSchema)
+const passwordConfirmation = useField('passwordConfirmation', validationSchema)
+
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    loading.value = true
+    await ky.post('auth/register', {
+      json:
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+        },
+    }).json()
+
+    store.registeredNow = true
+    await router.push({ name: 'Login' })
+  } catch (e) {
+    console.log(e)
+  } finally {
+    loading.value = false
+  }
+})
+
+const submit = async () => {
+  const valid = await validate()
+  if (valid.valid)
+    onSubmit()
+}
+
+
+</script>
+
+<style scoped>
+
+</style>

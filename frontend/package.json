@@ -14,10 +14,12 @@
     "ky": "^0.33.3",
     "pinia": "^2.0.36",
     "roboto-fontface": "^0.10.0",
+    "vee-validate": "^4.9.2",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vuetify": "^3.2.3",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

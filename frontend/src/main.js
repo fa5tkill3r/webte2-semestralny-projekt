@@ -12,9 +12,13 @@ import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+import { useAppStore } from '@/store/app'
 
 const app = createApp(App)
 
 registerPlugins(app)
 
-app.mount('#app')
+useAppStore().refresh().then(() => {
+  app.mount('#app')
+})
+

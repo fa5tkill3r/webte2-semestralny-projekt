@@ -13,7 +13,11 @@ import router from '../router'
 export function registerPlugins (app) {
   loadFonts()
   app
+    .use(pinia)
     .use(vuetify)
     .use(router)
-    .use(pinia)
+
+  pinia.use(({ store }) => {
+    store.$router = router
+  })
 }
