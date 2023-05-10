@@ -19,27 +19,24 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'token' => $token
+            'token' => $token,
+            'user' => auth()->user()
         ], 200);
     }
 
     public function register(Request $request): JsonResponse
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['email', 'password', 'first_name', 'last_name']);
 
         User::create([
+            'first_name' => $credentials['first_name'],
+            'last_name' => $credentials['last_name'],
             'email' => $credentials['email'],
             'password' => bcrypt($credentials['password']),
         ]);
 
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json([
-                'error' => 'Unauthorized'
-            ], 401);
-        }
-
         return response()->json([
-            'token' => $token
+            'message' => 'Successfully registered. Please login.',
         ], 200);
     }
 
