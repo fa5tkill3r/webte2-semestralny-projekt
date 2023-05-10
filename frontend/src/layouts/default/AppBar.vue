@@ -48,10 +48,10 @@ const store = useAppStore()
 
 const loading = ref(false)
 
-const logout = () => {
+const logout = async () => {
   try {
     loading.value = true
-    store.logout()
+    await store.logout()
   } catch (error) {
     console.error(error)
   } finally {
