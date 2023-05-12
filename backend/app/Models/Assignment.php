@@ -18,6 +18,10 @@ class Assignment extends Model
         'based_on_set_id',
     ];
 
+    protected $with = [
+        'set',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -26,6 +30,11 @@ class Assignment extends Model
     public function taskVariants(): BelongsToMany
     {
         return $this->belongsToMany(TaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
+    }
+
+    public function set(): BelongsTo
+    {
+        return $this->belongsTo(Set::class, 'based_on_set_id');
     }
 
 
