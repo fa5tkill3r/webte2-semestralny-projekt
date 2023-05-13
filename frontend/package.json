@@ -11,7 +11,10 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "core-js": "^3.30.2",
+    "jwt-decode": "^3.1.2",
+    "katex": "^0.16.7",
     "ky": "^0.33.3",
+    "mathlive": "^0.93.0",
     "pinia": "^2.0.36",
     "roboto-fontface": "^0.10.0",
     "vee-validate": "^4.9.2",

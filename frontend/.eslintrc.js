@@ -11,4 +11,7 @@ module.exports = {
     'eslint-config-prettier',
     'eslint:recommended',
   ],
+  rules: {
+    'vue/valid-v-slot': ['error', { allowModifiers: true }],
+  },
 }

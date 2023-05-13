@@ -52,7 +52,7 @@ class AssignmentController extends Controller
     public function getAssignment(Request $request, $id): JsonResponse
     {
         $assignmentTaskVariants = AssignmentTaskVariant::where('assignment_id', $id)->get();
-        $assignment = Assignment::find($id)->first();
+        $assignment = Assignment::find($id);
 
         $taskVariants = [];
         foreach ($assignmentTaskVariants as $assignmentTaskVariant) {
