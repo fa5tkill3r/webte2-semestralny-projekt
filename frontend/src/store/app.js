@@ -1,20 +1,20 @@
 // Utilities
 import { defineStore } from 'pinia'
-import { ky, setDefaults } from '@/lib/ky'
+import { ky } from '@/lib/ky'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
     user: null,
     registeredNow: false,
   }),
-  getters: {},
+  getters: {
+    token: () => sessionStorage.getItem('token'),
+  },
   actions: {
     async login(email, password) {
       const response = await ky.post('auth/login', { json: { email, password } }).json()
-      console.log(response)
       this.user = response.user
       sessionStorage.setItem('token', response.token)
-      await this.$router.push({ name: 'Home' })
       return this.user
     },
     async refresh() {
@@ -24,14 +24,9 @@ export const useAppStore = defineStore('app', {
       }
 
       try {
-        console.log(token)
-
         const response = await ky.get('auth/refresh').json()
-        console.log(response)
         this.user = response.user
         sessionStorage.setItem('token', response.token)
-
-        await this.$router.push({ name: 'Home' })
 
         return this.user
       } catch (error) {
@@ -44,7 +39,6 @@ export const useAppStore = defineStore('app', {
         this.user = null
         this.token = null
         sessionStorage.removeItem('token')
-        await this.$router.push({ name: 'Login' })
       } catch (error) {
         return error
       }

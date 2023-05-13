@@ -60,6 +60,7 @@ import { ref } from 'vue'
 import { useAppStore } from '@/store/app'
 import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate'
+import router from '@/router'
 
 const loading = ref(false)
 
@@ -101,8 +102,8 @@ const password = useField('password', validationSchema)
 const onSubmit = handleSubmit(async (values) => {
   loading.value = true
   try {
-    const result = await store.login(values.email, values.password)
-    console.log(result)
+    await store.login(values.email, values.password)
+    await router.push({ name: 'AssignmentsView' })
   } catch (e) {
     const error = await e.response.json()
     alert.value = {

@@ -1,6 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAppStore } from '@/store/app'
+import jwtDecode from 'jwt-decode'
 
 const routes = [
   {
@@ -24,6 +25,17 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: () => import(/* webpackChunkName: "register" */ '@/views/RegisterView.vue'),
+      },
+      {
+        path: '/assignments',
+        name: 'AssignmentsView',
+        component: () => import(/* webpackChunkName: "student" */ '@/views/Student/AssignmentsView.vue'),
+      },
+      {
+        path: '/assignment/:id',
+        name: 'AssignmentView',
+        props: true,
+        component: () => import(/* webpackChunkName: "assignment" */ '@/views/Student/AssignmentView'),
       }
     ],
   },
@@ -41,6 +53,18 @@ router.beforeEach((to) => {
 
   if (!allowList.includes(to.name) && !store.user) {
     return { name: 'Login' }
+  }
+
+  if (to.name === 'Login' && store.user) {
+    return { name: 'Home' }
+  }
+  if (to.path === '/') {
+    if (jwtDecode(store.token).role === 'student') {
+
+      return { name: 'AssignmentsView' }
+    } else if (jwtDecode(store.token).role === 'Teacher') {
+      return { name: 'TeacherView' }
+    }
   }
 })
 
