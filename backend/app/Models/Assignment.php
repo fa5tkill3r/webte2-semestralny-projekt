@@ -27,9 +27,19 @@ class Assignment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function assignmentTaskVariants(): BelongsToMany
+    {
+        return $this->belongsToMany(AssignmentTaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
+    }
+
     public function taskVariants(): BelongsToMany
     {
         return $this->belongsToMany(TaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
+    }
+
+    public function setTask($setTaskNumber): SetTask
+    {
+        return $this->set()->first()->setTasks()->where('task_number', $setTaskNumber)->first();
     }
 
     public function set(): BelongsTo

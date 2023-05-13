@@ -18,6 +18,7 @@ class AssignmentTaskVariant extends Model
         'set_task_id',
         'solution',
         'correct',
+        'task_number'
     ];
 
 
