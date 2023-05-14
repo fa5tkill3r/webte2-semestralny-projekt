@@ -16,7 +16,7 @@
         ></v-alert>
         <v-card>
           <v-card-title>
-            <span class='headline'>Login</span>
+            <span class='headline'>{{ $t('login') }}</span>
           </v-card-title>
 
           <v-card-text>
