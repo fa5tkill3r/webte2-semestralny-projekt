@@ -1,32 +1,29 @@
 <template>
   <v-app-bar flat>
     <v-app-bar-title>
-      <v-icon icon='mdi-circle-slice-6' />
+      <v-icon icon="mdi-circle-slice-6" />
 
-      Zadanie Final
+      {{$t('finalAssignment')}}
     </v-app-bar-title>
 
     <v-spacer />
-    <div v-if='!store.user'>
-      <v-btn to='/login'>
-        Login
-      </v-btn>
+    <div v-if="!store.user">
+      <v-btn to="/login"> {{$t('login')}} </v-btn>
 
-      <v-btn to='/register'>
-        Register
-      </v-btn>
+      <v-btn to="/register"> {{$t('register')}} </v-btn>
     </div>
     <div v-else>
-      <v-btn to='/assignments'>
-        Assignments
-      </v-btn>
-      <v-btn to='/generate'>
-        Generate
-      </v-btn>
+      <v-btn type="submit" @click="$i18n.locale = 'en'">{{
+        $t('english')
+      }}</v-btn>
+      &nbsp;
+      <v-btn type="submit" @click="$i18n.locale = 'sk'">{{
+        $t('slovak')
+      }}</v-btn>
+      <v-btn to="/assignments"> {{$t('Assignments')}} </v-btn>
+      <v-btn to="/generate"> {{$t('Generate')}} </v-btn>
 
-      <v-btn :loading='loading' @click='logout'>
-        Logout
-      </v-btn>
+      <v-btn :loading="loading" @click="logout"> {{$t('Logout')}} </v-btn>
     </div>
   </v-app-bar>
 </template>

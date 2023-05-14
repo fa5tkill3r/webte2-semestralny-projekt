@@ -1,3 +1,15 @@
 {
-  "login": "Login"
+  "login": "Login",
+  "slovak": "Slovak",
+  "english": "English",
+  "solution": "Solution",
+  "welcomeTo": "welcome to",
+  "components": "Components",
+  "getStarted": "Get Started",
+  "community": "Community",
+  "finalAssignment": "Final Assignment",
+  "register": "Register",
+  "Assignments": "Assignments",
+  "Generate": "Generate",
+  "Logout": "Logout"
 }

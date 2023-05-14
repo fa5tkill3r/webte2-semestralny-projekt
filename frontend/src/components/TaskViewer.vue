@@ -3,7 +3,7 @@
     <div id='task' class='katex text-center' />
 
     <div v-if='taskVariant.solution' class='text-center'>
-      <h2>Správne riešenie:</h2>
+      <h2>{{$t('solution')}}</h2>
       <div id='solution' class='katex text-center' />
     </div>
   </v-container>

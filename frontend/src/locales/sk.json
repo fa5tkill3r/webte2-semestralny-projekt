@@ -1,3 +1,15 @@
 {
-  "login": "Prihlásiť sa"
+  "login": "Prihlásiť sa",
+  "slovak": "Slovenský",
+  "english": "Anglický",
+  "solution": "Riešenie",
+  "welcomeTo": "Vitajte",
+  "components": "Komponenty",
+  "getStarted": "Začať",
+  "community": "Komunita",
+  "finalAssignment": "Finálne zadanie",
+  "register": "Registrácia",
+  "Assignments": "Zadania",
+  "Generate": "Generovať",
+  "Logout": "Odhlásiť"
 }
