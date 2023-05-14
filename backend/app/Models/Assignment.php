@@ -18,10 +18,6 @@ class Assignment extends Model
         'based_on_set_id',
     ];
 
-    protected $with = [
-        'set',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -37,9 +33,9 @@ class Assignment extends Model
         return $this->belongsToMany(TaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
     }
 
-    public function setTask($setTaskNumber): SetTask
+    public function setTasks(): BelongsToMany
     {
-        return $this->set()->first()->setTasks()->where('task_number', $setTaskNumber)->first();
+        return $this->belongsToMany(SetTask::class, 'assignment_task_variants', 'assignment_id', 'set_task_id');
     }
 
     public function set(): BelongsTo

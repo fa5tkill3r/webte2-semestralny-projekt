@@ -18,7 +18,6 @@ class AssignmentTaskVariant extends Model
         'set_task_id',
         'solution',
         'correct',
-        'task_number'
     ];
 
 
@@ -33,5 +32,10 @@ class AssignmentTaskVariant extends Model
     public function taskVariant(): BelongsTo
     {
         return $this->belongsTo(TaskVariant::class);
+    }
+
+    public function assignment(): BelongsTo
+    {
+        return $this->belongsTo(Assignment::class);
     }
 }

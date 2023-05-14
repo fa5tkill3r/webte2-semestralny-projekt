@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('assignment_id')->constrained('assignments');
             $table->foreignId('task_variant_id')->constrained('task_variants');
             $table->foreignId('set_task_id')->constrained('set_tasks');
-            $table->integer('task_number');
-            $table->string('solution')->nullable();
+            $table->text('solution')->nullable();
             $table->boolean('correct')->nullable();
         });
     }

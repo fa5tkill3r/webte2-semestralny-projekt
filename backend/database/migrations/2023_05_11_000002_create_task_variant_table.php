@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('task_variants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('task')->nullable();
-            $table->string('solution')->nullable();
+            $table->text('task')->nullable();
+            $table->text('solution')->nullable();
             $table->foreignId('task_id')->constrained('tasks');
         });
     }
