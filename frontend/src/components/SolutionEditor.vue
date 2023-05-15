@@ -1,9 +1,21 @@
 <template>
-  <div>
-    <div
-      id='mf' class='mathlive'
-      :style='boxShadow'></div>
-  </div>
+  <h3>Riešenie:</h3>
+  <v-row dense='dense'>
+    <v-col>
+      <div
+        ref='mfDiv' class='mathlive'
+        :style='boxShadow'></div>
+    </v-col>
+    <v-col cols='auto'>
+      <v-btn
+        v-if='!disabled'
+        height='100%'
+        @click='$emit("update", mf.value)'
+      >
+        Potvrdiť
+      </v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup>
@@ -29,10 +41,12 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update'])
-const mf = ref(null)
 
-// box shadow computed
+defineEmits(['update'])
+
+const mf = ref(null)
+const mfDiv = ref(null)
+
 const boxShadow = computed(() => {
   if (props.correct === null) {
     return ''
@@ -47,7 +61,6 @@ const boxShadow = computed(() => {
   }
 })
 
-// watch disabled
 watch(() => props.disabled, (disabled) => {
   mf.value.disabled = disabled
 })
@@ -55,19 +68,14 @@ watch(() => props.disabled, (disabled) => {
 
 onMounted(() => {
   mf.value = new MathfieldElement({
-    readOnly: props.disabled,
   })
   mf.value.value = props.value
   mf.value.style.width = '100%'
   mf.value.disabled = props.disabled
   mf.value.readOnly = props.disabled
 
-  mf.value.addEventListener('change', (ev) => {
-    emit('update', ev.target.value)
-  })
 
-  const mfDiv = document.getElementById('mf')
-  mfDiv.appendChild(mf.value)
+  mfDiv.value.appendChild(mf.value)
 })
 
 </script>
@@ -79,7 +87,6 @@ onMounted(() => {
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, .3);
   box-shadow: 0 0 8px rgba(0, 1, 0, .2);
-  min-width: 5em;
   --caret-color: red;
   --selection-background-color: lightgoldenrodyellow;
   --selection-color: darkblue;

@@ -64,6 +64,7 @@ class TeacherController extends Controller
                     ]);
                 }
             } catch (\Exception $e) {
+                $task->variants()->delete();
                 $task->delete();
                 throw $e;
             }

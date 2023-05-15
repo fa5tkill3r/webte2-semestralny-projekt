@@ -1,17 +1,25 @@
 <template>
-  <v-container>
-    <div id='task' class='katex text-center' />
+  <v-container ref='doc'>
+    <div v-if='taskVariant?.task'>
+      <div ref='task' class='katex text-center' />
+    </div>
 
-    <div v-if='taskVariant.solution' class='text-center'>
-      <h2>{{$t('solution')}}</h2>
-      <div id='solution' class='katex text-center' />
+
+    <div v-if='taskVariant?.user_solution'>
+      <h2>Tvoje riešenie:</h2>
+      <div ref='userSolution' class='katex text-center'/>
+    </div>
+
+    <div v-if='taskVariant?.correct === false' class='text-center'>
+      <h2>Správne riešenie:</h2>
+      <div ref='solution' class='katex text-center' />
     </div>
   </v-container>
 
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import 'katex/dist/katex.min.css'
 
@@ -24,18 +32,26 @@ const props = defineProps({
   },
 })
 
-onMounted(async () => {
-  console.log(props.taskVariant)
-  const task = document.getElementById('task')
-  task.innerHTML = props.taskVariant.task
+const task = ref(null)
+const solution = ref(null)
+const userSolution = ref(null)
+const doc = ref(null)
+
+const refresh = () => {
+  task.value.innerHTML = props.taskVariant.task
 
   if (props.taskVariant.solution) {
-    const solution = document.getElementById('solution')
-    solution.innerHTML = props.taskVariant.solution
+    solution.value.innerHTML = props.taskVariant.solution
   }
 
+  if (props.taskVariant.user_solution) {
+    userSolution.value.innerHTML = "$" + props.taskVariant.user_solution + "$"
+  }
 
-  renderMathInElement(document.body, {
+  console.log(doc.value.$el.node)
+
+
+  renderMathInElement(doc.value.$el.parentNode, {
     delimiters: [
       { left: '$$', right: '$$', display: true },
       { left: '$', right: '$', display: false },
@@ -47,7 +63,10 @@ onMounted(async () => {
     ],
     trust: true,
   })
+}
 
+onMounted(async () => {
+ refresh()
 })
 </script>
 
