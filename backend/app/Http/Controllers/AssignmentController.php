@@ -6,6 +6,7 @@ use App\Http\Requests\GenerateAssignmentRequest;
 use App\Models\Assignment;
 use App\Models\AssignmentTaskVariant;
 use App\Models\Set;
+use App\Models\SetTask;
 use App\Models\TaskVariant;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +30,6 @@ class AssignmentController extends Controller
         $setTasks = $set->setTasks()->get();
 
 
-        $taskNumber = 1;
         foreach ($setTasks as $setTask) {
 
             $taskVariant = $setTask->task()->get()->first()->randomVariant();
@@ -38,7 +38,6 @@ class AssignmentController extends Controller
                 'assignment_id' => $assignment->id,
                 'task_variant_id' => $taskVariant->id,
                 'set_task_id' => $setTask->id,
-                'task_number' => $taskNumber++,
             ]);
 
         }
@@ -49,25 +48,53 @@ class AssignmentController extends Controller
         ], 200);
     }
 
+
+    public function generateTaskVariant(Request $request, $assigmentId, $taskId)
+    {
+        $assignment = Assignment::find($assigmentId);
+        $setTask = SetTask::where('set_id', $assignment->based_on_set_id)->where('task_id', $taskId)->first();
+        $taskVariant = $setTask->task()->first()->randomVariant();
+
+        AssignmentTaskVariant::create([
+            'assignment_id' => $assignment->id,
+            'task_variant_id' => $taskVariant->id,
+            'set_task_id' => $setTask->id,
+        ]);
+
+        return $this->getAssignment($request, $assigmentId);
+    }
+
     public function getAssignment(Request $request, $id): JsonResponse
     {
         $assignmentTaskVariants = AssignmentTaskVariant::where('assignment_id', $id)->get();
         $assignment = Assignment::find($id);
 
-        $taskVariants = [];
-        foreach ($assignmentTaskVariants as $assignmentTaskVariant) {
-            $taskVariant = $assignmentTaskVariant->taskVariant()->first();
-            if ($assignment->finished_at != null) {
-                $taskVariant->makeVisible('solution');
-            }
-            $taskVariant->user_solution = $assignmentTaskVariant->solution;
-            $taskVariant->correct = $assignmentTaskVariant->correct;
-            $taskVariant->task_number = $assignmentTaskVariant->task_number;
-            $taskVariant->max_points = $assignmentTaskVariant->setTask()->first()->max_points;
-            $taskVariants[] = $taskVariant;
-        }
+//        $taskVariants = [];
+//        $set = Set::find($assignment->based_on_set_id);
+//        foreach ($assignmentTaskVariants as $assignmentTaskVariant) {
+//            $taskVariant = $assignmentTaskVariant->taskVariant()->first();
+//            if ($assignment->finished_at != null) {
+//                $taskVariant->makeVisible('solution');
+//            }
+//            $taskVariant->user_solution = $assignmentTaskVariant->solution;
+//            $taskVariant->correct = $assignmentTaskVariant->correct;
+//            $taskVariant->task_number = $assignmentTaskVariant->task_number;
+//            $taskVariant->max_points = $assignmentTaskVariant->setTask()->first()->max_points;
+//            $taskVariants[] = $taskVariant;
+//        }
 
-        $assignment->task_variants = $taskVariants;
+
+        $assignment->set = $assignment->set()->first();
+        $assignment->set->set_tasks = $assignment->set->setTasks()->get();
+        $assignment->set->set_tasks->each(function ($setTask) use ($assignmentTaskVariants) {
+            $setTask->task = $setTask->task()->first();
+            $assignmentTaskVariant = $assignmentTaskVariants->where('set_task_id', $setTask->id)->first();
+            if ($assignmentTaskVariant != null) {
+                $setTask->task->taskVariant = $assignmentTaskVariant->taskVariant()->first();
+                $setTask->task->taskVariant->user_solution = $assignmentTaskVariant->solution;
+                $setTask->task->taskVariant->correct = $assignmentTaskVariant->correct;
+            }
+        });
 
 
         return response()->json([
@@ -104,10 +131,11 @@ class AssignmentController extends Controller
         ]);
     }
 
-    public function getTaskVariantByNumber(Request $request, $assignmentId, $taskNumber): JsonResponse {
+    public function getTaskVariantByNumber(Request $request, $assignmentId, $taskNumber): JsonResponse
+    {
         $assigmentTaskVariant = AssignmentTaskVariant::where('assignment_id', $assignmentId)->where('task_number', $taskNumber)->first();
         $task = TaskVariant::find($assigmentTaskVariant->task_variant_id);
-        $task->task_number = (int) $taskNumber;
+        $task->task_number = (int)$taskNumber;
         $task->max_points = $assigmentTaskVariant->setTask()->first()->max_points;
 
         if (!$task) {
@@ -136,8 +164,9 @@ class AssignmentController extends Controller
         ], 200);
     }
 
-    public function addSolution(Request $request, $assignmentId, $taskNumber): JsonResponse {
-        $assignmentTaskVariant = AssignmentTaskVariant::where('assignment_id', $assignmentId)->where('task_number', $taskNumber)->first();
+    public function addSolution(Request $request, $assignmentId, $taskVariantId): JsonResponse
+    {
+        $assignmentTaskVariant = AssignmentTaskVariant::where('assignment_id', $assignmentId)->where('task_variant_id', $taskVariantId)->first();
 
         if ($assignmentTaskVariant->assignment()->first()->finished_at != null) {
             return response()->json([
@@ -148,12 +177,11 @@ class AssignmentController extends Controller
         $assignmentTaskVariant->solution = $request->solution;
         $assignmentTaskVariant->save();
 
-        return response()->json([
-            'message' => 'Successfully added solution',
-        ], 200);
+        return $this->getAssignment($request, $assignmentTaskVariant->assignment_id);
     }
 
-    public function submitAssignment(Request $request, $assignmentId): JsonResponse {
+    public function submitAssignment(Request $request, $assignmentId): JsonResponse
+    {
         $assignment = Assignment::find($assignmentId);
         $assignment->finished_at = now();
         $assignment->save();

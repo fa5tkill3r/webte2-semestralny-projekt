@@ -29,9 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/assignment/generate', [AssignmentController::class, 'generateAssignment']);
 
     Route::get('/assignment/{id}', [AssignmentController::class, 'getAssignment']);
-    Route::post('/assignment/{id}/submit', [AssignmentController::class, 'submitAssignment']);
+//    Route::post('/assignment/{id}/submit', [AssignmentController::class, 'submitAssignment']);
     Route::get('/assignment/{id}/{taskNumber}', [AssignmentController::class, 'getTaskVariantByNumber']);
-    Route::post('/assignment/{id}/{taskNumber}', [AssignmentController::class, 'addSolution']);
+    Route::post('/assignment/{assignmentId}/{taskVariantId}/submit', [AssignmentController::class, 'addSolution']);
+    Route::post('/assignment/{id}/{taskId}/generate', [AssignmentController::class, 'generateTaskVariant']);
 
     Route::get('/task/{taskVariantId}', [AssignmentController::class, 'getTaskVariant']);
 
