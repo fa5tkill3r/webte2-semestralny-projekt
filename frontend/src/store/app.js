@@ -1,6 +1,7 @@
 // Utilities
 import { defineStore } from 'pinia'
 import { ky } from '@/lib/ky'
+import jwtDecode from 'jwt-decode'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -9,6 +10,11 @@ export const useAppStore = defineStore('app', {
   }),
   getters: {
     token: () => sessionStorage.getItem('token'),
+    role() {
+      // noinspection JSCheckFunctionSignatures
+      return jwtDecode(this.token).role
+    }
+
   },
   actions: {
     async login(email, password) {

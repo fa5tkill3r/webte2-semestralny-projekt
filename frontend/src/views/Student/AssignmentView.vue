@@ -49,10 +49,6 @@ const props = defineProps({
 
 const assignment = ref({})
 
-watch(assignment.value, (x) => {
-  console.log(x)
-})
-
 
 const generate = async (setTaskId) => {
   const response = await ky.post(`assignment/${assignment.value.id}/${setTaskId}/generate`).json()
@@ -61,14 +57,12 @@ const generate = async (setTaskId) => {
 
 
 const update = async (value, taskId) => {
-  console.log(value, taskId)
   assignment.value.set.set_tasks.find((x) => x.task_id === taskId).task.taskVariant.user_solution = value
 }
 
 onMounted(async () => {
   const response = await ky.get(`assignment/${props.id}`).json()
   assignment.value = response.assignment
-  console.log(assignment.value)
 })
 </script>
 

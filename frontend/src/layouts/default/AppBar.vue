@@ -28,7 +28,7 @@
           alt="Image"
         />
       </v-btn>
-      <v-btn to="/assignments"> {{ $t('Assignments') }} </v-btn>
+      <v-btn to="/"> {{ $t('Assignments') }} </v-btn>
       <v-btn :loading="loading" @click="logout"> {{ $t('Logout') }} </v-btn>
     </div>
   </v-app-bar>

@@ -44,7 +44,6 @@ const toLocalDate = (date) => {
 }
 
 const toState = (item) => {
-  console.log(JSON.parse(JSON.stringify(item)))
   if (item.raw.finished_at !== null) {
     return 'Odovzdané'
   } else {

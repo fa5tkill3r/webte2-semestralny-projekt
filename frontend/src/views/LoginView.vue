@@ -103,7 +103,7 @@ const onSubmit = handleSubmit(async (values) => {
   loading.value = true
   try {
     await store.login(values.email, values.password)
-    await router.push({ name: 'AssignmentsView' })
+    await router.push({ name: 'Home' })
   } catch (e) {
     const error = await e.response.json()
     alert.value = {
