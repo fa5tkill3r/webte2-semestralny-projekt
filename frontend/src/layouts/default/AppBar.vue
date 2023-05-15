@@ -8,8 +8,14 @@
 
     <v-spacer />
     <div v-if="!store.user">
+      <v-btn type="submit" @click="$i18n.locale = 'en'">{{
+        $t('english')
+      }}</v-btn>
+      &nbsp;
+      <v-btn type="submit" @click="$i18n.locale = 'sk'">{{
+        $t('slovak')
+      }}</v-btn>
       <v-btn to="/login"> {{$t('login')}} </v-btn>
-
       <v-btn to="/register"> {{$t('register')}} </v-btn>
     </div>
     <div v-else>

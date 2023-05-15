@@ -4,7 +4,7 @@
 
 | úloha                                                        | body | pridadenie | priorita | Status |
 |--------------------------------------------------------------|:----:|------------|:--------:|:------:|
-| dvojjazyčnosť                                                |  6   | Rado       |    2     |        |
+| dvojjazyčnosť                                                |  6   | Rado       |    2     |   ✅    |
 | prihlasovanie sa do aplikácie (študent, učiteľ)              |  6   | Nicolas    |    1     |   ✅    |
 | GUI a funkcionalita študenta (vrátane matematického editora) |  16  | Nicolas    |    3     |        |
 | GUI a funkcionalita učiteľa                                  |  16  | Rišo       |    2     |        |

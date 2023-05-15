@@ -24,14 +24,14 @@
               <v-text-field
                 v-model='email.value.value'
                 :error-messages='email.errorMessage.value'
-                label='Email'
+                :label="$t('email')"
                 required
               ></v-text-field>
 
               <v-text-field
                 v-model='password.value.value'
                 :error-messages='password.errorMessage.value'
-                label='Password'
+                :label="$t('password')"
                 type='password'
                 required
               ></v-text-field>
@@ -45,7 +45,7 @@
               color='primary'
               :loading='loading'
               @click='login'
-            >Login
+            >{{$t('login')}}
             </v-btn>
           </v-card-actions>
         </v-card>

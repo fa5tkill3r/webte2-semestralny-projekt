@@ -6,7 +6,7 @@
       <v-col cols='auto' md='6'>
         <v-card>
           <v-card-title>
-            <span class='headline'>Register</span>
+            <span class='headline'>{{$t('register')}}</span>
           </v-card-title>
 
           <v-card-text>
@@ -19,14 +19,14 @@
                   <v-text-field
                     v-model='firstName.value.value'
                     :error-messages='firstName.errorMessage.value'
-                    label='First Name'
+                    :label="$t('firstName')"
                   ></v-text-field>
                 </v-col>
                 <v-col>
                   <v-text-field
                     v-model='lastName.value.value'
                     :error-messages='lastName.errorMessage.value'
-                    label='Last Name'
+                    :label="$t('lastName')"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -40,14 +40,14 @@
               <v-text-field
                 v-model='password.value.value'
                 :error-messages='password.errorMessage.value'
-                label='Password'
+                :label="$t('password')"
                 type='password'
               ></v-text-field>
 
               <v-text-field
                 v-model='passwordConfirmation.value.value'
                 :error-messages='passwordConfirmation.errorMessage.value'
-                label='Password again'
+                :label="$t('passwordAgain')"
                 type='password'
               ></v-text-field>
             </v-form>
@@ -61,7 +61,7 @@
               type='submit'
               :loading='loading'
               @click='submit'
-            >Register</v-btn>
+            >{{$t('register')}}</v-btn>
 
           </v-card-actions>
         </v-card>

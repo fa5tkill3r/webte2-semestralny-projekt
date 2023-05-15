@@ -18,5 +18,10 @@
   "continue": "Continue",
   "submit": "Submit",
   "close": "Close",
-  "solutionDotDot": "Solution:"
+  "solutionDotDot": "Solution:",
+  "firstName": "Name",
+  "lastName": "Surname",
+  "password": "Password",
+  "passwordAgain": "Confirm password",
+  "email": "Email"
 }

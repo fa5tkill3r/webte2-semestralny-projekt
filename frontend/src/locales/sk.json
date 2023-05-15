@@ -18,6 +18,10 @@
   "continue": "Pokračovať",
   "submit": "Odovzdať",
   "close": "Zatvoriť",
-  "solutionDotDot": "Riešenie:"
-
+  "solutionDotDot": "Riešenie:",
+  "firstName": "Meno",
+  "lastName": "Priezvisko",
+  "password": "Heslo",
+  "passwordAgain": "Zopakuj Heslo",
+  "email": "Email"
 }
