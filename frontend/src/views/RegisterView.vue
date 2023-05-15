@@ -6,14 +6,15 @@
       <v-col cols='auto' md='6'>
         <v-card>
           <v-card-title>
-            <span class='headline'>{{$t('register')}}</span>
+            <span class='headline'>{{ $t('register') }}</span>
           </v-card-title>
 
           <v-card-text>
             <v-form
               ref='form'
               :readonly='loading'
-              @submit.prevent='onSubmit' >
+              @submit.prevent='onSubmit'
+              @keyup.enter='onSubmit'>
               <v-row>
                 <v-col>
                   <v-text-field
@@ -61,7 +62,8 @@
               type='submit'
               :loading='loading'
               @click='submit'
-            >{{$t('register')}}</v-btn>
+            >{{ $t('register') }}
+            </v-btn>
 
           </v-card-actions>
         </v-card>
