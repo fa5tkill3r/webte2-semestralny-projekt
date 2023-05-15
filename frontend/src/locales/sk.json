@@ -11,5 +11,13 @@
   "register": "Registrácia",
   "Assignments": "Zadania",
   "Generate": "Generovať",
-  "Logout": "Odhlásiť"
+  "Logout": "Odhlásiť",
+  "taskView": "Prehľad úloh",
+  "back": "Späť",
+  "points": "Body:",
+  "continue": "Pokračovať",
+  "submit": "Odovzdať",
+  "close": "Zatvoriť",
+  "solutionDotDot": "Riešenie:"
+
 }

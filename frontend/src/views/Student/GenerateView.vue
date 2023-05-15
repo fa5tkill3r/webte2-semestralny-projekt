@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>TaskView</h1>
+    <h1>{{$t('taskView')}}</h1>
 
   </div>
 </template>

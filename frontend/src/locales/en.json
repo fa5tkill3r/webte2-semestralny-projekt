@@ -11,5 +11,12 @@
   "register": "Register",
   "Assignments": "Assignments",
   "Generate": "Generate",
-  "Logout": "Logout"
+  "Logout": "Logout",
+  "taskView": "Task view",
+  "back": "Back",
+  "points": "Points:",
+  "continue": "Continue",
+  "submit": "Submit",
+  "close": "Close",
+  "solutionDotDot": "Solution:"
 }
