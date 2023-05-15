@@ -37,11 +37,11 @@ const props = defineProps({
 const emit = defineEmits(['update'])
 
 const update = async (value) => {
-  // await ky.post(`assignment/${props.assignmentId}/${props.task.taskVariant.id}/submit`, {
-  //   json: {
-  //     solution: value,
-  //   },
-  // })
+  await ky.post(`assignment/${props.assignmentId}/${props.task.taskVariant.id}/submit`, {
+    json: {
+      solution: value,
+    },
+  })
   emit('update', value, props.task.id)
 }
 

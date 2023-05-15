@@ -27,7 +27,6 @@
         $t('slovak')
       }}</v-btn>
       <v-btn to="/assignments"> {{$t('Assignments')}} </v-btn>
-      <v-btn to="/generate"> {{$t('Generate')}} </v-btn>
 
       <v-btn :loading="loading" @click="logout"> {{$t('Logout')}} </v-btn>
     </div>
