@@ -19,8 +19,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-
+import { nextTick, onMounted, ref, watch } from 'vue'
 import 'katex/dist/katex.min.css'
 
 import renderMathInElement from 'katex/contrib/auto-render'
@@ -37,21 +36,8 @@ const solution = ref(null)
 const userSolution = ref(null)
 const doc = ref(null)
 
-const refresh = () => {
-  task.value.innerHTML = props.taskVariant.task
-
-  if (props.taskVariant.solution) {
-    solution.value.innerHTML = props.taskVariant.solution
-  }
-
-  if (props.taskVariant.user_solution) {
-    userSolution.value.innerHTML = "$" + props.taskVariant.user_solution + "$"
-  }
-
-  console.log(doc.value.$el.node)
-
-
-  renderMathInElement(doc.value.$el.parentNode, {
+const render = (el) => {
+  renderMathInElement(el, {
     delimiters: [
       { left: '$$', right: '$$', display: true },
       { left: '$', right: '$', display: false },
@@ -62,8 +48,29 @@ const refresh = () => {
       { left: '\\', right: '\\', display: true },
     ],
     trust: true,
+    throwOnError: false,
   })
 }
+
+
+const refresh = () => {
+  task.value.innerHTML = props.taskVariant.task
+  render(task.value)
+
+  if (props.taskVariant.solution) {
+    solution.value.innerHTML = props.taskVariant.solution
+    render(solution.value)
+  }
+
+  if (props.taskVariant.user_solution) {
+    userSolution.value.innerHTML = "$" + props.taskVariant.user_solution + "$"
+    render(userSolution.value)
+  }
+}
+watch(props.taskVariant, async () => {
+  await nextTick()
+  refresh()
+})
 
 onMounted(async () => {
  refresh()
