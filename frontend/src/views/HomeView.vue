@@ -8,6 +8,7 @@ import { computed } from 'vue'
 import { useAppStore } from '@/store/app'
 import AssignmentsView from '@/views/Student/AssignmentsView.vue'
 import TeacherView from '@/views/Teacher/TeacherView.vue'
+import { t } from '@/lib/i18n'
 
 const store = useAppStore()
 
@@ -18,5 +19,8 @@ const component = computed(() => {
     return TeacherView
   }
 })
+
+
+console.log(t('login'))
 
 </script>

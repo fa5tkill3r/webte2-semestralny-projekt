@@ -11,8 +11,11 @@ const messages = {
 export let i18n = new createI18n({
   locale: 'en',
   fallbackLocale: 'en',
+  globalInjection: true,
   messages: messages
 })
+
+export let t = i18n.global.t
 
 export function getLocale() {
   return i18n.global.locale
