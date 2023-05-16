@@ -34,4 +34,9 @@ class Set extends Model
     {
         return $this->hasMany(SetTask::class, 'set_id');
     }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

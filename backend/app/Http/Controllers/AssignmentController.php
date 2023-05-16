@@ -69,21 +69,6 @@ class AssignmentController extends Controller
         $assignmentTaskVariants = AssignmentTaskVariant::where('assignment_id', $id)->get();
         $assignment = Assignment::find($id);
 
-//        $taskVariants = [];
-//        $set = Set::find($assignment->based_on_set_id);
-//        foreach ($assignmentTaskVariants as $assignmentTaskVariant) {
-//            $taskVariant = $assignmentTaskVariant->taskVariant()->first();
-//            if ($assignment->finished_at != null) {
-//                $taskVariant->makeVisible('solution');
-//            }
-//            $taskVariant->user_solution = $assignmentTaskVariant->solution;
-//            $taskVariant->correct = $assignmentTaskVariant->correct;
-//            $taskVariant->task_number = $assignmentTaskVariant->task_number;
-//            $taskVariant->max_points = $assignmentTaskVariant->setTask()->first()->max_points;
-//            $taskVariants[] = $taskVariant;
-//        }
-
-
         $assignment->set = $assignment->set()->first();
         $assignment->set->set_tasks = $assignment->set->setTasks()->get();
         $assignment->set->set_tasks->each(function ($setTask) use ($assignmentTaskVariants) {
@@ -107,12 +92,44 @@ class AssignmentController extends Controller
         $assignments = User::find(auth()->user()->id)->assignments()->get();
         $assignments->each(function ($assignment) {
             $assignment->set = $assignment->set()->first();
-            $assignment->task_variants = $assignment->assignmentTaskVariants()->get();
+            $setTasks = $assignment->set->setTasks()->get();
+            $assignment->max_points = 0;
+            $assignment->tasks_count = $setTasks->count();
+            $assignment->tasks_done = $assignment->assignmentTaskVariants()->count();
+            $maxPoints = null;
+            foreach ($setTasks as $setTask) {
+                $assignment->max_points += $setTask->max_points;
+                $maxPoints = $setTask->max_points;
+            }
+            $assignment->points = null;
+            $assignmentTaskVariants = $assignment->assignmentTaskVariants()->get();
+            foreach ($assignmentTaskVariants as $assignmentTaskVariant) {
+                $assignment->points = 0;
+                if ($assignmentTaskVariant->correct) {
+                    $assignment->points += $maxPoints;
+                }
+            }
 
-            $assignment->task_variants->each(function ($taskVariant) {
-                $taskVariant->max_points = $taskVariant->setTask()->first()->max_points;
-            });
+            $assignment->state = "new";
+            if ($assignment->set->setTasks()->count() == $assignment->assignmentTaskVariants()->count())
+                $assignment->state = "done";
+            else if ($assignment->assignmentTaskVariants()->count() > 0)
+                $assignment->state = "in_progress";
+
+            $assignment->teacher = $assignment->set->createdBy()->first();
         });
+
+        $assignments = $assignments->filter(function ($assignment) {
+            return $assignment->set->start <= now();
+        });
+
+        $assignments = $assignments->sortByDesc(function ($assignment) {
+            return $assignment->state !== "done";
+        })->sortByDesc(function ($assignment) {
+            return $assignment->set->end;
+        });
+
+        $assignments = $assignments->values()->all();
 
         return response()->json([
             'assignments' => $assignments,
@@ -179,6 +196,11 @@ class AssignmentController extends Controller
         if ($assignmentTaskVariant->assignment()->first()->finished_at != null) {
             return response()->json([
                 'message' => 'Assignment is finished',
+            ], 400);
+        }
+        if ($assignmentTaskVariant->solution != null) {
+            return response()->json([
+                'message' => 'Solution already exists',
             ], 400);
         }
 

@@ -23,7 +23,6 @@ class Assignment extends Model
     {
         return $this->belongsTo(User::class);
     }
-
     public function assignmentTaskVariants(): HasMany
     {
         return $this->hasMany(AssignmentTaskVariant::class);
