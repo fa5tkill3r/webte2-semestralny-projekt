@@ -1,7 +1,7 @@
 <template>
   <v-app-bar flat>
     <v-app-bar-title>
-      <v-icon icon="mdi-circle-slice-6" />
+      <v-icon icon="mdi-bookshelf" />
 
       {{ $t('finalAssignment') }}
     </v-app-bar-title>
