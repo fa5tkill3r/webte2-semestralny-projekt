@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Assignment extends Model
 {
@@ -23,19 +24,9 @@ class Assignment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function assignmentTaskVariants(): BelongsToMany
+    public function assignmentTaskVariants(): HasMany
     {
-        return $this->belongsToMany(AssignmentTaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
-    }
-
-    public function taskVariants(): BelongsToMany
-    {
-        return $this->belongsToMany(TaskVariant::class, 'assignment_task_variants', 'assignment_id', 'task_variant_id');
-    }
-
-    public function setTasks(): BelongsToMany
-    {
-        return $this->belongsToMany(SetTask::class, 'assignment_task_variants', 'assignment_id', 'set_task_id');
+        return $this->hasMany(AssignmentTaskVariant::class);
     }
 
     public function set(): BelongsTo

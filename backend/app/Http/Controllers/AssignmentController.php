@@ -105,6 +105,14 @@ class AssignmentController extends Controller
     public function getAssignments(): JsonResponse
     {
         $assignments = User::find(auth()->user()->id)->assignments()->get();
+        $assignments->each(function ($assignment) {
+            $assignment->set = $assignment->set()->first();
+            $assignment->task_variants = $assignment->assignmentTaskVariants()->get();
+
+            $assignment->task_variants->each(function ($taskVariant) {
+                $taskVariant->max_points = $taskVariant->setTask()->first()->max_points;
+            });
+        });
 
         return response()->json([
             'assignments' => $assignments,
