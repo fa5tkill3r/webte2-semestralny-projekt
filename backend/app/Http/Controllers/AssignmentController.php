@@ -9,6 +9,7 @@ use App\Models\Set;
 use App\Models\SetTask;
 use App\Models\TaskVariant;
 use App\Models\User;
+use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;

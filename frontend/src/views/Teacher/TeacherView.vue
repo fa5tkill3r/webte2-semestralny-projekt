@@ -62,7 +62,7 @@ async function fetchTasks() {
   try {
     const response = await ky.get('tasks').json()
     tasks.value = response.tasks
-    console.log(response.tasks);
+    console.log(tasks.value);
   } catch (error) {
     console.error(error)
   }
