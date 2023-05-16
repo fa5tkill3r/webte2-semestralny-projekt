@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use GuzzleHttp\Client;
 
 class AssignmentController extends Controller
 {
@@ -207,11 +208,44 @@ class AssignmentController extends Controller
         $assignmentTaskVariant->solution = $request->solution;
         $assignmentTaskVariant->save();
 
+        checkSolution( $assignmentTaskVariant, $taskVariantId);
+
         return $this->getAssignment($request, $assignmentTaskVariant->assignment_id);
     }
 
-    public function submitAssignment(Request $request, $assignmentId): JsonResponse
-    {
+
+    public function checkSolution($assignmentTaskVariant, $taskVariantId): JsonResponse {
+        $assignmentTaskVariantSolution = $assignmentTaskVariant->solution;
+
+        $task = TaskVariant::find($taskVariantId);
+        $taskSolution = $task->solution; 
+
+        $client = new Client([
+            'base_uri' => 'https://127.0.0.1:9001'
+        ]);
+
+        $data = [
+            'expr1' => $assignmentTaskVariantSolution,
+            'expr2' => $taskSolution,
+        ];
+        
+        $response = $client->post('/compare', [
+            'json' => $data,
+            'verify' => false
+        ]);
+        
+        $responseData = json_decode($response->getBody(), true);
+        
+        if($responseData["result"]== 1){
+            $assignmentTaskVariant->correct = true;
+            $assignmentTaskVariant->save();
+        }else if($responseData["result"] == 0){
+            $assignmentTaskVariant->correct = false;
+            $assignmentTaskVariant->save();
+        }
+    }
+
+    public function submitAssignment(Request $request, $assignmentId): JsonResponse {
         $assignment = Assignment::find($assignmentId);
         $assignment->finished_at = now();
         $assignment->save();
