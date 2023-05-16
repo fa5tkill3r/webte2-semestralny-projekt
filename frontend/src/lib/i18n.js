@@ -8,10 +8,12 @@ const messages = {
 }
 
 
-const i18n = new createI18n({
+export let i18n = new createI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: messages
 })
 
-export default i18n
+export function getLocale() {
+  return i18n.global.locale
+}
