@@ -14,9 +14,9 @@ import { onMounted, ref } from 'vue'
 import { ky } from '@/lib/ky'
 
 const headers = ref([
-  { text: 'First Name', value: 'first_name' },
-  { text: 'Last Name', value: 'last_name' },
-  { text: 'Email', value: 'email' },
+  { title: 'First Name', key: 'first_name' },
+  { title: 'Last Name', key: 'last_name' },
+  { title: 'Email', key: 'email' },
 ])
 
 const students = ref([])
