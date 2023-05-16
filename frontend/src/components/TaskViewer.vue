@@ -6,12 +6,12 @@
 
 
     <div v-if='taskVariant?.user_solution'>
-      <h2>Tvoje riešenie:</h2>
+      <h2>{{$t('yourSolution')}}</h2>
       <div ref='userSolution' class='katex text-center'/>
     </div>
 
     <div v-if='taskVariant?.correct === false' class='text-center'>
-      <h2>Správne riešenie:</h2>
+      <h2>{{$t('correctSolution')}}</h2>
       <div ref='solution' class='katex text-center' />
     </div>
   </v-container>

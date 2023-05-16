@@ -23,5 +23,8 @@
   "lastName": "Priezvisko",
   "password": "Heslo",
   "passwordAgain": "Zopakuj Heslo",
-  "email": "Email"
+  "email": "Email",
+  "yourSolution": "Tvoje riešenie:",
+  "correctSolution": "Správne Riešenie:",
+  "confirm": "Potvrdiť"
 }

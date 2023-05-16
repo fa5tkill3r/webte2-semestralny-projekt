@@ -23,5 +23,8 @@
   "lastName": "Surname",
   "password": "Password",
   "passwordAgain": "Confirm password",
-  "email": "Email"
+  "email": "Email",
+  "yourSolution": "Your solution:",
+  "correctSolution": "Correct solution:",
+  "confirm": "Confirm"
 }

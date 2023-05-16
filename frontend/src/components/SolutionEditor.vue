@@ -1,5 +1,5 @@
 <template>
-  <h3>Riešenie:</h3>
+  <h3>{{$t('solutionDotDot')}}</h3>
   <v-row dense='dense'>
     <v-col>
       <div
@@ -12,7 +12,7 @@
         height='100%'
         @click='$emit("update", mf.value)'
       >
-        Potvrdiť
+        {{$t('confirm')}}
       </v-btn>
     </v-col>
   </v-row>
