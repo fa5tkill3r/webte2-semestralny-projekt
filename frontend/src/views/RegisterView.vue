@@ -42,14 +42,18 @@
                 v-model='password.value.value'
                 :error-messages='password.errorMessage.value'
                 :label="$t('password')"
-                type='password'
+                :type='showPassword ? "text" : "password"'
+                :append-icon='showPassword ? "mdi-eye" : "mdi-eye-off"'
+                @click:append='showPassword = !showPassword'
               ></v-text-field>
 
               <v-text-field
                 v-model='passwordConfirmation.value.value'
                 :error-messages='passwordConfirmation.errorMessage.value'
                 :label="$t('passwordAgain')"
-                type='password'
+                :type='showPassword ? "text" : "password"'
+                :append-icon='showPassword ? "mdi-eye" : "mdi-eye-off"'
+                @click:append='showPassword = !showPassword'
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -127,6 +131,8 @@ const onSubmit = handleSubmit(async (values) => {
     loading.value = false
   }
 })
+
+const showPassword = ref(false)
 
 const submit = async () => {
   const valid = await validate()

@@ -32,8 +32,10 @@
                 v-model='password.value.value'
                 :error-messages='password.errorMessage.value'
                 :label="$t('password')"
-                type='password'
+                :type='showPassword ? "text" : "password"'
+                :append-icon='showPassword ? "mdi-eye" : "mdi-eye-off"'
                 required
+                @click:append='showPassword = !showPassword'
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -73,6 +75,8 @@ const alert = ref({
   text: '',
   icon: '',
 })
+
+const showPassword = ref(false)
 
 if (store.registeredNow) {
   alert.value = {
