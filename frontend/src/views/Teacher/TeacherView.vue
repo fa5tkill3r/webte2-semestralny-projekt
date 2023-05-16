@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <h1>It works</h1>
-  </div>
-<!--  <v-container>-->
-<!--    <v-data-table-->
-<!--      :headers="headers"-->
-<!--      :items="students"-->
-<!--    ></v-data-table>-->
-<!--  </v-container>-->
+  <v-container>
+    <v-data-table
+      :headers="headers"
+      :items="students"
+    ></v-data-table>
+  </v-container>
 </template>
 
 
