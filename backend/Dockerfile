@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
        zip \
        unzip \
        nginx \
-       supervisor
+       supervisor \
+       default-mysql-client
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -29,6 +30,8 @@ COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
 COPY . .
+
+RUN mv .env.production .env
 
 RUN composer dump-autoload --optimize
 
