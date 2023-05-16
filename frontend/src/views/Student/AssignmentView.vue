@@ -1,7 +1,16 @@
 <template>
   <div v-if='assignment.id' ref='test'>
     <v-container>
-      <h1>{{ assignment.set?.name }}</h1>
+      <div class='d-flex flex-row align-center'>
+        <h1 class='mr-3'>{{ assignment.set?.name }}</h1>
+        <v-chip
+          v-if='passed'
+          color='red'
+          text-color='white'
+        >
+          Ukončené
+        </v-chip>
+      </div>
 
 
       <div v-for='setTask in assignment.set.set_tasks' :key='setTask.id'>
@@ -9,13 +18,17 @@
           <v-col cols='auto'>
             <h2 class='text-center'>{{ setTask.task.name }}</h2>
           </v-col>
-          <v-col v-if='!setTask.task.taskVariant' cols='auto'>
+          <v-col v-if='!setTask.task.taskVariant && !passed' cols='auto'>
             <v-btn
               @click='generate(setTask.task_id)'
             >
               Generovať
             </v-btn>
           </v-col>
+          <v-spacer/>
+          <span class='points' :class='{ correct: setTask?.task?.taskVariant?.correct, wrong: setTask?.task?.taskVariant?.correct === false }'>
+            {{ points(setTask) }} / {{ setTask.max_points }}
+          </span>
 
         </v-row>
         <div v-if='setTask.task.taskVariant'>
@@ -33,7 +46,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { ky } from '@/lib/ky'
 import Task from '@/components/Task.vue'
 
@@ -47,7 +60,21 @@ const props = defineProps({
   },
 })
 
+const points = (setTask) => {
+  if (setTask?.task?.taskVariant?.correct === undefined)
+    return '-'
+  if (setTask?.task?.taskVariant?.correct === null)
+    return '-'
+  if (setTask.task.taskVariant?.correct)
+    return setTask.max_points
+  return 0
+}
+
 const assignment = ref({})
+
+const passed = computed(() => {
+  return new Date(assignment.value.set.end) < new Date()
+})
 
 
 const generate = async (setTaskId) => {
@@ -66,4 +93,18 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.points {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+</style>
