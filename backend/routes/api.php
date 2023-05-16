@@ -41,4 +41,5 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/teacher/parse', [TeacherController::class, 'parse']);
     Route::get('/students', [StudentController::class, 'getStudents']);
+    Route::get('/tasks', [AssignmentController::class, 'getAllTasks']);
 });

@@ -16,6 +16,16 @@ use GuzzleHttp\Client;
 
 class AssignmentController extends Controller
 {
+
+    public function getAllTasks(): JsonResponse
+    {
+        $tasks = Task::all();
+
+        return response()->json([
+            'tasks' => $tasks,
+        ], 200);
+    }
+
     public function generateAssignment(GenerateAssignmentRequest $request): JsonResponse
     {
         $request->validated();
