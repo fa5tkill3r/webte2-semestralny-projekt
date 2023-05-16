@@ -1,60 +1,87 @@
 <template>
-  <v-container>
-    <v-data-table
-      :headers='headers'
-      :items='data'
+  <v-container
+    v-if='assignments'
+  >
+
+    <h1 class='mb-3'>Current assignments</h1>
+    <div
+      v-if='assignments'
     >
-      <template #item.actions='{ item }'>
-        <v-btn
-          :to='`/assignment/${item.value}`'
-          color='primary'
+      <v-row
+        justify='center'
+        class='mb-7'
+      >
+        <v-col
+          v-for='assignment in currentAssignments'
+          :key='assignment.id'
+          cols='12'
+          sm='6'
+          md='4'
+          lg='3'
+          xl='2'
+          xxl='2'
         >
-          {{ item.raw.finished_at ? 'Zobraziť' : 'Spusiť' }}
-        </v-btn>
-      </template>
-      <template #item.created_at='{ item }'>
-        {{ toLocalDate(item.columns.created_at) }}
-      </template>
-      <template #item.set.end='{ item }'>
-        {{ toLocalDate(item.columns.set.end) }}
-      </template>
-      <template #item.status='{ item }'>
-        {{ toState(item) }}
-      </template>
-    </v-data-table>
+          <AssignmentComponent :assignment='assignment' />
+        </v-col>
+      </v-row>
+      <div
+        v-if='currentAssignments?.length === 0'
+      >
+        You have no current assignments.
+      </div>
+    </div>
+
+
+    <h1 class='mb-3'>Past assignments</h1>
+    <div
+      v-if='assignments'
+    >
+      <v-row
+        justify='center'
+      >
+        <v-col
+          v-for='assignment in pastAssignments'
+          :key='assignment.id'
+          cols='12'
+          sm='6'
+          md='4'
+          lg='3'
+          xl='2'
+          xxl='2'
+        >
+          <AssignmentComponent :assignment='assignment' />
+        </v-col>
+      </v-row>
+      <div
+        v-if='pastAssignments?.length === 0'
+      >
+        You have no past assignments.
+      </div>
+    </div>
   </v-container>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ky } from '@/lib/ky'
+import AssignmentComponent from '@/components/AssignmentComponent.vue'
 
-const headers = ref([
-  { title: 'Name', key: 'set.name' },
-  { title: 'Created at', key: 'created_at' },
-  { title: 'Deadline', key: 'set.end' },
-  { title: 'Status', key: 'status' },
-  { title: 'Actions', key: 'actions', sortable: false },
-])
+const assignments = ref(null)
 
-const data = ref([])
+const currentAssignments = computed(() => {
+  if (assignments?.value.length === 0 || !assignments?.value)
+    return []
+  return assignments?.value?.filter((x) => new Date(x.set.end) > new Date() && x.finished_at === null)
+})
 
-const toLocalDate = (date) => {
-  return new Date(date).toLocaleString('sk-SK')
-}
+const pastAssignments = computed(() => {
+  if (assignments?.value.length === 0 || !assignments?.value)
+    return []
+  return assignments?.value?.filter((x) => new Date(x.set.end) < new Date() || x.finished_at !== null)
+})
 
-const toState = (item) => {
-  if (item.raw.finished_at !== null) {
-    return 'Odovzdané'
-  } else {
-    return 'Neodovzdané'
-  }
-}
-
-
-onMounted(async () => {
-  const response = await ky.get('assignment').json()
-  data.value = response.assignments
+ky.get('assignment').json().then((data) => {
+  assignments.value = data.assignments
 })
 
 
