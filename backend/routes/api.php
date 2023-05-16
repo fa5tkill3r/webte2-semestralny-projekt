@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/task/{taskVariantId}', [AssignmentController::class, 'getTaskVariant']);
 
     Route::post('/teacher/parse', [TeacherController::class, 'parse']);
-
-
-
+    Route::get('/students', [StudentController::class, 'getStudents']);
 });
