@@ -11,6 +11,16 @@
       <v-card class="dashboard-card smaller-card">
         <v-card-title>Task and Date Selection</v-card-title>
         <v-card-text>
+          <v-text-field
+            v-model="taskName"
+            label="Task Name"
+            outlined
+            dense
+            class="task-name"
+            persistent-hint
+            hint="Enter a descriptive name for the task"
+          ></v-text-field>
+          <br />
           <div>
             <div v-for="task in tasks" :key="task.id">
               <v-checkbox
@@ -22,27 +32,59 @@
             </div>
           </div>
           <div class="date-selection">
-            <v-text-field
-              v-model="startDate"
-              label="Start Date"
-              outlined
-              dense
-              type="date"
-              class="date-picker"
-              persistent-hint
-              hint="Select the start date for the task"
-            ></v-text-field>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="startDate"
+                  label="Start Date"
+                  outlined
+                  dense
+                  type="date"
+                  class="date-picker"
+                  persistent-hint
+                  hint="Select the start date for the task"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="startTime"
+                  label="Start Time"
+                  outlined
+                  dense
+                  type="time"
+                  class="time-picker"
+                  persistent-hint
+                  hint="Select the start time for the task"
+                ></v-text-field>
+              </v-col>
+            </v-row>
             <br />
-            <v-text-field
-              v-model="endDate"
-              label="End Date"
-              outlined
-              dense
-              type="date"
-              class="date-picker"
-              persistent-hint
-              hint="Select the end date for the task"
-            ></v-text-field>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="endDate"
+                  label="End Date"
+                  outlined
+                  dense
+                  type="date"
+                  class="date-picker"
+                  persistent-hint
+                  hint="Select the end date for the task"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="endTime"
+                  label="End Time"
+                  outlined
+                  dense
+                  type="time"
+                  class="time-picker"
+                  persistent-hint
+                  hint="Select the end time for the task"
+                ></v-text-field>
+              </v-col>
+            </v-row>
             <br />
             <v-btn @click="submit" class="submit-button">Submit</v-btn>
           </div>
@@ -53,7 +95,7 @@
         <v-card-title>Text Input</v-card-title>
         <v-card-text>
           <v-text-field
-            v-model="taskName"
+            v-model="taskNameTextInput"
             label="Task Name"
             outlined
             dense
@@ -102,8 +144,13 @@ const headers = ref([
 const tasks = ref([])
 const students = ref([])
 const selectedTasks = ref([])
+const taskName = ref('')
+const taskNameTextInput = ref('')
+const textInput = ref('')
 const startDate = ref('')
+const startTime = ref('')
 const endDate = ref('')
+const endTime = ref('')
 const errorSnackbar = ref(false)
 const snackbarTimeout = ref(4000)
 const snackbarColor = ref('error')
@@ -119,42 +166,44 @@ onMounted(async () => {
 
 const submit = () => {
   const selectedTaskIds = selectedTasks.value
-  const selectedDates = {
-    startDate: startDate.value,
-    endDate: endDate.value,
-  }
 
-  if (startDate.value && endDate.value && startDate.value <= endDate.value) {
+  if (
+    startDate.value &&
+    startTime.value &&
+    endDate.value &&
+    endTime.value &&
+    startDate.value <= endDate.value
+  ) {
+    const startDateTime = `${startDate.value} ${startTime.value}:00`
+    const endDateTime = `${endDate.value} ${endTime.value}:00`
+
     console.log('Selected task IDs:', selectedTaskIds)
-    console.log('Selected dates:', selectedDates)
+    console.log('Task Name:', taskName.value)
+    console.log('Start Date and Time:', startDateTime)
+    console.log('End Date and Time:', endDateTime)
   } else {
-    showErrorSnackbar('Invalid date range selected.')
+    showErrorSnackbar('Invalid date or time selected.')
   }
 }
 
-
-
-  const taskName = ref('');
-  const textInput = ref('');
-
-  const submitText = async () => {
-  if (taskName.value && textInput.value) {
-    const queryParams = new URLSearchParams();
-    queryParams.append('taskname', taskName.value);
+const submitText = async () => {
+  if (taskNameTextInput.value && textInput.value) {
+    const queryParams = new URLSearchParams()
+    queryParams.append('taskname', taskNameTextInput.value)
 
     const response = await ky.post(`teacher/parse?${queryParams.toString()}`, {
       body: textInput.value,
-    });
+    })
 
     if (response.ok) {
-      console.log('Text submitted successfully');
+      console.log('Text submitted successfully')
     } else {
-      showErrorSnackbar('Failed to submit text');
+      showErrorSnackbar('Failed to submit text')
     }
   } else {
-    showErrorSnackbar('Both task name and text input are required');
+    showErrorSnackbar('Both task name and text input are required')
   }
-};
+}
 
 const showErrorSnackbar = (message) => {
   snackbarMessage.value = message
@@ -186,6 +235,7 @@ const showErrorSnackbar = (message) => {
 }
 
 .date-picker .v-input__control,
+.time-picker .v-input__control,
 .text-input .v-input__control {
   background-color: #f3f5f7;
   box-shadow: none;
@@ -193,11 +243,13 @@ const showErrorSnackbar = (message) => {
 }
 
 .date-picker .v-label,
+.time-picker .v-label,
 .text-input .v-label {
   color: #546e7a;
 }
 
-.date-picker input[type='date']::-webkit-calendar-picker-indicator {
+.date-picker input[type='date']::-webkit-calendar-picker-indicator,
+.time-picker input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(45%) sepia(15%) saturate(458%) hue-rotate(164deg) brightness(96%) contrast(84%);
 }
 
