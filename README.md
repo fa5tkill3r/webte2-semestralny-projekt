@@ -9,7 +9,7 @@
 | GUI a funkcionalita študenta (vrátane matematického editora) |  16  | Nicolas    |    3     |   ✅    |
 | 1. čásť GUI a funkcionalita učiteľa                          |  8   | Rado       |    2     |        |
 | 2. čásť GUI a funkcionalita učiteľa                          |  8   | Rišo       |    2     |        |
-| kontrola správnosti výsledku                                 |  16  | Andrea     |  Normal  |        |
+| kontrola správnosti výsledku                                 |  16  | Andrea     |  Normal  |   ✅    |
 | export do csv a pdf                                          |  10  | Andrea     |   Low    |        |
 | docker balíček                                               |  16  | Nicolas    |   Low    |   ✅    |
 | používanie verzionovacieho systému všetkými členmi tímu      |  8   | All        |    -     |        |
