@@ -41,19 +41,27 @@
       </v-card>
 
       <v-card class="dashboard-card smaller-card">
-        <v-card-title>Text Input</v-card-title>
-        <v-card-text>
-          <v-textarea
-            v-model="textInput"
-            label="Enter Text"
-            outlined
-            rows="7"
-            class="text-input"
-          ></v-textarea>
-          <br />
-          <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
-        </v-card-text>
-      </v-card>
+    <v-card-title>Text Input</v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="taskName"
+        label="Task Name"
+        outlined
+        dense
+        class="task-name"
+      ></v-text-field>
+      <br />
+      <v-textarea
+        v-model="textInput"
+        label="Enter Text"
+        outlined
+        rows="7"
+        class="text-input"
+      ></v-textarea>
+      <br />
+      <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
+    </v-card-text>
+  </v-card>
     </div>
 
     <v-snackbar
@@ -87,7 +95,6 @@ const errorSnackbar = ref(false)
 const snackbarTimeout = ref(4000)
 const snackbarColor = ref('error')
 const snackbarMessage = ref('')
-const textInput = ref('')
 
 onMounted(async () => {
   const response = await ky.get('students').json()
@@ -112,9 +119,29 @@ const submit = () => {
   }
 }
 
-const submitText = () => {
-  console.log('Entered text:', textInput.value)
-}
+
+
+  const taskName = ref('');
+  const textInput = ref('');
+
+  const submitText = async () => {
+    if (taskName.value && textInput.value) {
+      const queryParams = new URLSearchParams();
+      queryParams.append('taskname', taskName.value);
+
+      const response = await ky.post(`teacher/parse?${queryParams.toString()}`, {
+        body: textInput.value,
+      });
+
+      if (response.ok) {
+        console.log('Text submitted successfully');
+      } else {
+        console.error('Failed to submit text');
+      }
+    } else {
+      console.error('Both task name and text input are required');
+    }
+  };
 
 const showErrorSnackbar = (message) => {
   snackbarMessage.value = message
