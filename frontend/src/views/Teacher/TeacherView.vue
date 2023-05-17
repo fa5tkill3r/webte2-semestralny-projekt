@@ -167,13 +167,17 @@ onMounted(async () => {
 const submit = () => {
   const selectedTaskIds = selectedTasks.value
 
-  if (
-    startDate.value &&
-    startTime.value &&
-    endDate.value &&
-    endTime.value &&
-    startDate.value <= endDate.value
-  ) {
+  if (!selectedTaskIds.length) {
+    showErrorSnackbar('Please select at least one task.')
+    return
+  }
+
+  if (!taskName.value.trim()) {
+    showErrorSnackbar('Please enter a task name.')
+    return
+  }
+
+  if (startDate.value && startTime.value && endDate.value && endTime.value && startDate.value <= endDate.value) {
     const startDateTime = `${startDate.value} ${startTime.value}:00`
     const endDateTime = `${endDate.value} ${endTime.value}:00`
 
@@ -261,9 +265,12 @@ const showErrorSnackbar = (message) => {
   background-color: #1976d2;
   color: #ffffff;
   border-radius: 4px;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
 }
 
 .submit-button:hover {
   background-color: #1565c0;
 }
 </style>
+
