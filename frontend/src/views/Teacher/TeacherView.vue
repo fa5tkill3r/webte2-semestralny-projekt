@@ -13,7 +13,12 @@
         <v-card-text>
           <div>
             <div v-for="task in tasks" :key="task.id">
-              <v-checkbox v-model="selectedTasks" :label="task.name" :value="task.id"></v-checkbox>
+              <v-checkbox
+                v-model="selectedTasks"
+                :label="task.name"
+                :value="task.id"
+                class="task-checkbox"
+              ></v-checkbox>
             </div>
           </div>
           <div class="date-selection">
@@ -24,6 +29,8 @@
               dense
               type="date"
               class="date-picker"
+              persistent-hint
+              hint="Select the start date for the task"
             ></v-text-field>
             <br />
             <v-text-field
@@ -33,6 +40,8 @@
               dense
               type="date"
               class="date-picker"
+              persistent-hint
+              hint="Select the end date for the task"
             ></v-text-field>
             <br />
             <v-btn @click="submit" class="submit-button">Submit</v-btn>
@@ -41,27 +50,31 @@
       </v-card>
 
       <v-card class="dashboard-card smaller-card">
-    <v-card-title>Text Input</v-card-title>
-    <v-card-text>
-      <v-text-field
-        v-model="taskName"
-        label="Task Name"
-        outlined
-        dense
-        class="task-name"
-      ></v-text-field>
-      <br />
-      <v-textarea
-        v-model="textInput"
-        label="Enter Text"
-        outlined
-        rows="7"
-        class="text-input"
-      ></v-textarea>
-      <br />
-      <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
-    </v-card-text>
-  </v-card>
+        <v-card-title>Text Input</v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="taskName"
+            label="Task Name"
+            outlined
+            dense
+            class="task-name"
+            persistent-hint
+            hint="Enter a descriptive name for the task"
+          ></v-text-field>
+          <br />
+          <v-textarea
+            v-model="textInput"
+            label="LaTeX Text Input"
+            outlined
+            rows="7"
+            class="text-input"
+            persistent-hint
+            hint="Enter the LaTeX text for the task, e.g., equations, formulas"
+          ></v-textarea>
+          <br />
+          <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
+        </v-card-text>
+      </v-card>
     </div>
 
     <v-snackbar
@@ -125,23 +138,23 @@ const submit = () => {
   const textInput = ref('');
 
   const submitText = async () => {
-    if (taskName.value && textInput.value) {
-      const queryParams = new URLSearchParams();
-      queryParams.append('taskname', taskName.value);
+  if (taskName.value && textInput.value) {
+    const queryParams = new URLSearchParams();
+    queryParams.append('taskname', taskName.value);
 
-      const response = await ky.post(`teacher/parse?${queryParams.toString()}`, {
-        body: textInput.value,
-      });
+    const response = await ky.post(`teacher/parse?${queryParams.toString()}`, {
+      body: textInput.value,
+    });
 
-      if (response.ok) {
-        console.log('Text submitted successfully');
-      } else {
-        console.error('Failed to submit text');
-      }
+    if (response.ok) {
+      console.log('Text submitted successfully');
     } else {
-      console.error('Both task name and text input are required');
+      showErrorSnackbar('Failed to submit text');
     }
-  };
+  } else {
+    showErrorSnackbar('Both task name and text input are required');
+  }
+};
 
 const showErrorSnackbar = (message) => {
   snackbarMessage.value = message
