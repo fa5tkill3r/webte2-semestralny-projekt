@@ -13,13 +13,19 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
   frontend:
+#    ports:
+#      - '3000:80'
     build:
       context: ./frontend
+    image: fastkiller/webte2:frontend
     depends_on:
       - backend
   backend:
+#    ports:
+#      - '3001:80'
     build:
       context: ./backend
+    image: fastkiller/webte2:backend
     depends_on:
       - mysql
   nginx:
