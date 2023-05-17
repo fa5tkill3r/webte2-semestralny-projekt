@@ -1,4 +1,4 @@
-FROM php:8.2.1-fpm
+FROM php:8.1-fpm
 
 WORKDIR /var/www/html
 
@@ -37,13 +37,13 @@ RUN composer dump-autoload --optimize
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-ENV APP_ENV=production
+#ENV APP_ENV=production
 
 COPY entry.sh .
 
 RUN chmod +x ./entry.sh
 
-ENTRYPOINT ["./entry.sh"]
+#ENTRYPOINT ["./entry.sh"]
 
 EXPOSE 80
 
