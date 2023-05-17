@@ -31,6 +31,18 @@
               ></v-checkbox>
             </div>
           </div>
+          <br />
+<v-text-field
+  v-model="maxPoints"
+  label="Max Points"
+  outlined
+  dense
+  type="number"
+  class="max-points"
+  persistent-hint
+  hint="Enter the maximum points for the task"
+></v-text-field>
+<br />
           <div class="date-selection">
             <v-row>
               <v-col cols="6">
@@ -164,31 +176,40 @@ onMounted(async () => {
   tasks.value = responseTwo.tasks
 })
 
+const maxPoints = ref(0);
+
+// Update the 'submit' function
 const submit = () => {
-  const selectedTaskIds = selectedTasks.value
+  const selectedTaskIds = selectedTasks.value;
 
   if (!selectedTaskIds.length) {
-    showErrorSnackbar('Please select at least one task.')
-    return
+    showErrorSnackbar('Please select at least one task.');
+    return;
   }
 
   if (!taskName.value.trim()) {
-    showErrorSnackbar('Please enter a task name.')
-    return
+    showErrorSnackbar('Please enter a task name.');
+    return;
+  }
+
+  if (maxPoints.value < selectedTaskIds.length) {
+    showErrorSnackbar('Max points should be greater than or equal to the number of selected tasks.');
+    return;
   }
 
   if (startDate.value && startTime.value && endDate.value && endTime.value && startDate.value <= endDate.value) {
-    const startDateTime = `${startDate.value} ${startTime.value}:00`
-    const endDateTime = `${endDate.value} ${endTime.value}:00`
+    const startDateTime = `${startDate.value} ${startTime.value}:00`;
+    const endDateTime = `${endDate.value} ${endTime.value}:00`;
 
-    console.log('Selected task IDs:', selectedTaskIds)
-    console.log('Task Name:', taskName.value)
-    console.log('Start Date and Time:', startDateTime)
-    console.log('End Date and Time:', endDateTime)
+    console.log('Selected task IDs:', selectedTaskIds);
+    console.log('Task Name:', taskName.value);
+    console.log('Start Date and Time:', startDateTime);
+    console.log('End Date and Time:', endDateTime);
+    console.log('Max Points:', maxPoints.value);
   } else {
-    showErrorSnackbar('Invalid date or time selected.')
+    showErrorSnackbar('Invalid date or time selected.');
   }
-}
+};
 
 const submitText = async () => {
   if (taskNameTextInput.value && textInput.value) {
@@ -271,6 +292,16 @@ const showErrorSnackbar = (message) => {
 
 .submit-button:hover {
   background-color: #1565c0;
+}
+
+.max-points .v-input__control {
+  background-color: #f3f5f7;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.max-points .v-label {
+  color: #546e7a;
 }
 </style>
 
