@@ -9,5 +9,3 @@ if [ ! -f /var/www/html/public/migration.temp ]; then
     php artisan migrate --force
     touch /var/www/html/public/migration.temp
 fi
-
-tail -f /dev/null
