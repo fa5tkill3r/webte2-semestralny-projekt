@@ -18,6 +18,7 @@
 
         .bigger-b{
             font-size: 20px;
+            font-weight: 550;
         }
 
         .v-container{
@@ -43,7 +44,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <i class="navbar-brand" > </i>
-                <b class = "bigger-b me-5">Zadanie Final</b>
+                <b class = "bigger-b me-5">Finálne zadanie</b>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -80,10 +81,10 @@
 
     <script>
         function redirectToLogin() {
-            window.location.href = '/login';
+            window.location.href = 'http://localhost:3000/login';
         }
 
         function redirectToRegister() {
-            window.location.href = '/register';
+            window.location.href = 'http://localhost:3000/register';
         }
     </script>

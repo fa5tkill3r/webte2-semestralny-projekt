@@ -7,37 +7,75 @@
       </v-card-text>
     </v-card>
 
-    <v-card class="dashboard-card smaller-card">
-      <v-card-title>Task and Date Selection</v-card-title>
-      <v-card-text>
-        <div>
-          <div v-for="task in tasks" :key="task.id">
-            <v-checkbox v-model="selectedTasks" :label="task.name" :value="task.id"></v-checkbox>
+    <div class="flex-container">
+      <v-card class="dashboard-card smaller-card">
+        <v-card-title>Task and Date Selection</v-card-title>
+        <v-card-text>
+          <div>
+            <div v-for="task in tasks" :key="task.id">
+              <v-checkbox
+                v-model="selectedTasks"
+                :label="task.name"
+                :value="task.id"
+                class="task-checkbox"
+              ></v-checkbox>
+            </div>
           </div>
-        </div>
-        <div class="date-selection">
+          <div class="date-selection">
+            <v-text-field
+              v-model="startDate"
+              label="Start Date"
+              outlined
+              dense
+              type="date"
+              class="date-picker"
+              persistent-hint
+              hint="Select the start date for the task"
+            ></v-text-field>
+            <br />
+            <v-text-field
+              v-model="endDate"
+              label="End Date"
+              outlined
+              dense
+              type="date"
+              class="date-picker"
+              persistent-hint
+              hint="Select the end date for the task"
+            ></v-text-field>
+            <br />
+            <v-btn @click="submit" class="submit-button">Submit</v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <v-card class="dashboard-card smaller-card">
+        <v-card-title>Text Input</v-card-title>
+        <v-card-text>
           <v-text-field
-            v-model="startDate"
-            label="Start Date"
+            v-model="taskName"
+            label="Task Name"
             outlined
             dense
-            type="date"
-            class="date-picker"
+            class="task-name"
+            persistent-hint
+            hint="Enter a descriptive name for the task"
           ></v-text-field>
           <br />
-          <v-text-field
-            v-model="endDate"
-            label="End Date"
+          <v-textarea
+            v-model="textInput"
+            label="LaTeX Text Input"
             outlined
-            dense
-            type="date"
-            class="date-picker"
-          ></v-text-field>
+            rows="7"
+            class="text-input"
+            persistent-hint
+            hint="Enter the LaTeX text for the task, e.g., equations, formulas"
+          ></v-textarea>
           <br />
-          <v-btn @click="submit" class="submit-button">Submit</v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
+          <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
+        </v-card-text>
+      </v-card>
+    </div>
 
     <v-snackbar
       v-model="errorSnackbar"
@@ -56,9 +94,9 @@ import { onMounted, ref } from 'vue'
 import { ky } from '@/lib/ky'
 
 const headers = ref([
-  { text: 'First Name', value: 'first_name' },
-  { text: 'Last Name', value: 'last_name' },
-  { text: 'Email', value: 'email' },
+  { title: 'First Name', key: 'first_name' },
+  { title: 'Last Name', key: 'last_name' },
+  { title: 'Email', key: 'email' },
 ])
 
 const tasks = ref([])
@@ -94,6 +132,30 @@ const submit = () => {
   }
 }
 
+
+
+  const taskName = ref('');
+  const textInput = ref('');
+
+  const submitText = async () => {
+  if (taskName.value && textInput.value) {
+    const queryParams = new URLSearchParams();
+    queryParams.append('taskname', taskName.value);
+
+    const response = await ky.post(`teacher/parse?${queryParams.toString()}`, {
+      body: textInput.value,
+    });
+
+    if (response.ok) {
+      console.log('Text submitted successfully');
+    } else {
+      showErrorSnackbar('Failed to submit text');
+    }
+  } else {
+    showErrorSnackbar('Both task name and text input are required');
+  }
+};
+
 const showErrorSnackbar = (message) => {
   snackbarMessage.value = message
   errorSnackbar.value = true
@@ -108,28 +170,39 @@ const showErrorSnackbar = (message) => {
 }
 
 .smaller-card {
-  width: 300px;
-  margin-right: 20px;
+  flex: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
-.date-selection {
+.flex-container {
+  display: flex;
+  gap: 20px;
+}
+
+.date-selection,
+.text-input {
   margin-top: 20px;
 }
 
-.date-picker .v-input__control {
+.date-picker .v-input__control,
+.text-input .v-input__control {
   background-color: #f3f5f7;
   box-shadow: none;
   border-radius: 4px;
 }
 
-.date-picker .v-label {
+.date-picker .v-label,
+.text-input .v-label {
   color: #546e7a;
 }
 
 .date-picker input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(45%) sepia(15%) saturate(458%) hue-rotate(164deg) brightness(96%) contrast(84%);
+}
+
+.text-input textarea {
+  resize: vertical;
 }
 
 .submit-button {

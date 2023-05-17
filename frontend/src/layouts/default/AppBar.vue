@@ -16,6 +16,7 @@
           alt="Image"
         />
       </v-btn>
+      <v-btn @click="redirectToPdf"> {{ $t('Tutorial') }} </v-btn>
       <v-btn to="/login"> {{ $t('login') }} </v-btn>
       <v-btn to="/register"> {{ $t('register') }} </v-btn>
     </div>
@@ -68,5 +69,9 @@ const logout = async () => {
   } finally {
     loading.value = false
   }
+}
+
+const redirectToPdf = () => {
+  window.location.href = 'http://localhost:8000/myPDF';
 }
 </script>

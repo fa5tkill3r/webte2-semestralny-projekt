@@ -219,13 +219,13 @@ class AssignmentController extends Controller
         $assignmentTaskVariant->solution = $request->solution;
         $assignmentTaskVariant->save();
 
-        checkSolution( $assignmentTaskVariant, $taskVariantId);
+        $this->checkSolution( $assignmentTaskVariant, $taskVariantId);
 
         return $this->getAssignment($request, $assignmentTaskVariant->assignment_id);
     }
 
 
-    public function checkSolution($assignmentTaskVariant, $taskVariantId): JsonResponse {
+    public function checkSolution($assignmentTaskVariant, $taskVariantId) {
         $assignmentTaskVariantSolution = $assignmentTaskVariant->solution;
 
         $task = TaskVariant::find($taskVariantId);
@@ -239,12 +239,12 @@ class AssignmentController extends Controller
             'expr1' => $assignmentTaskVariantSolution,
             'expr2' => $taskSolution,
         ];
-        
+
         $response = $client->post('/compare', [
             'json' => $data,
             'verify' => false
         ]);
-        
+
         $responseData = json_decode($response->getBody(), true);
         
         if($responseData["result"]== 1){

@@ -12,12 +12,12 @@ class Item(BaseModel):
     expr1: str
     expr2: str 
 
-app = FastAPI(ssl_keyfile="/home/xsigetiova/webte.fei.stuba.sk.key", ssl_certfile="/home/xsigetiova/webte_fei_stuba_sk.pem")
+app = FastAPI(ssl_keyfile="webte.fei.stuba.sk.key", ssl_certfile="webte_fei_stuba_sk.pem")
 
 
 
 @app.post("/compare")
-async def create_porovnaj2(expr:Item):
+async def create_compare(expr:Item):
     expr.expr1 = parse_latex(expr.expr1)
     expr.expr2 = parse_latex(expr.expr2)
     simplified_expr1 = sympy.simplify(expr.expr1)
@@ -27,4 +27,3 @@ async def create_porovnaj2(expr:Item):
     else:
         result = 0
     return {"result":result} 
-    #return expr
