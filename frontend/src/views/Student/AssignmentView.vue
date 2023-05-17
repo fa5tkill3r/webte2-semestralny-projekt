@@ -83,8 +83,10 @@ const generate = async (setTaskId) => {
 }
 
 
-const update = async (value, taskId) => {
-  assignment.value.set.set_tasks.find((x) => x.task_id === taskId).task.taskVariant.user_solution = value
+const update = async (value, taskId, correct) => {
+  const taskVariant = assignment.value.set.set_tasks.find((x) => x.task_id === taskId).task.taskVariant
+  taskVariant.user_solution = value
+  taskVariant.correct = correct
 }
 
 onMounted(async () => {
