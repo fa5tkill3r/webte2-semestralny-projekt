@@ -229,10 +229,10 @@ class AssignmentController extends Controller
         $assignmentTaskVariantSolution = $assignmentTaskVariant->solution;
 
         $task = TaskVariant::find($taskVariantId);
-        $taskSolution = $task->solution; 
+        $taskSolution = $task->solution;
 
         $client = new Client([
-            'base_uri' => 'https://127.0.0.1:9001'
+            'base_uri' => env('VALIDATOR_URL')
         ]);
 
         $data = [
@@ -246,7 +246,7 @@ class AssignmentController extends Controller
         ]);
 
         $responseData = json_decode($response->getBody(), true);
-        
+
         if($responseData["result"]== 1){
             $assignmentTaskVariant->correct = true;
             $assignmentTaskVariant->save();

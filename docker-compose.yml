@@ -28,6 +28,10 @@ services:
     image: fastkiller/webte2:backend
     depends_on:
       - mysql
+  validator:
+    build:
+      context: ./validator
+    image: fastkiller/webte2:validator
   nginx:
     image: nginx:latest
     ports:
