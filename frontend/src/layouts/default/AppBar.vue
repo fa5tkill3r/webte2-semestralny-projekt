@@ -41,6 +41,7 @@ import { ref, getCurrentInstance } from 'vue'
 import router from '@/router'
 import enImage from '@/assets/en.jpg'
 import skImage from '@/assets/sk.jpg'
+import { getApiUrl } from '@/lib/ky'
 
 const { proxy } = getCurrentInstance()
 
@@ -72,6 +73,7 @@ const logout = async () => {
 }
 
 const redirectToPdf = () => {
-  window.location.href = 'http://localhost:8000/myPDF';
+  const apiUrl = getApiUrl();
+  window.location.href = apiUrl + '/myPDF';
 }
 </script>

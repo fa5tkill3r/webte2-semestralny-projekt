@@ -21,6 +21,11 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::get('/task/{taskVariant}/image', [AssignmentController::class, 'getImage']);
 
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate.pdf');
+
+Route::get('/myPDF', function () {
+    return view('myPDF');
+});
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);

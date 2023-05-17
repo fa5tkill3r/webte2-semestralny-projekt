@@ -81,10 +81,10 @@
 
     <script>
         function redirectToLogin() {
-            window.location.href = 'http://localhost:3000/login';
+            window.location.href = '{{ env('FE_URL') }}/login';
         }
 
         function redirectToRegister() {
-            window.location.href = 'http://localhost:3000/register';
+            window.location.href = '{{ env('FE_URL') }}/register';
         }
     </script>

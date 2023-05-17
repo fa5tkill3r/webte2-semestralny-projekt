@@ -17,9 +17,3 @@ use App\Http\Controllers\PDFController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate.pdf');
-
-Route::get('/myPDF', function () {
-    return view('myPDF');
-});

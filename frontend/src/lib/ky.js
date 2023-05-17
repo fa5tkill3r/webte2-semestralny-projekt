@@ -1,6 +1,6 @@
 import kyclient from 'ky'
 
-const getApiUrl = () => {
+export const getApiUrl = () => {
   if (import.meta.env.MODE === 'production') {
     return window.location.origin + '/api'
   } else {
