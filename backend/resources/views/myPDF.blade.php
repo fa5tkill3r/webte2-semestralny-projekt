@@ -58,6 +58,9 @@
             <form class="d-flex">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
+                        <a class="nav-link" id="lan" onclick="changeLanguage()" href="#">SK</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" onclick="redirectToLogin()" href="#"><b class = "b-settings">LOGIN</b></a>
                     </li>
                     <li class="nav-item">
@@ -68,15 +71,16 @@
             </div>
         </div>
     </nav>
-    
+
     <div class = "container container-md">
+        <div id="skBody">
         <div class = "text-center">
             <h1>Návod na používanie aplikácie</h1>
         </div>
         <div class = "box-shadow rounded">
             <div class = "p-5">
                 <p class="fw-normal">Táto aplikácia slúži na zadávanie súborov s matematickými úlohami, ich generovanie, zadávanie riešení týchto úloh a následnú kontrolu správnosti zadaných riešení.</p>
-                <p class="fw-normal">Na úvodnej stránke je možné vidieť formulár na prihlásenie. Ak ešte nemáte vytvorený účet, je možné sa zaregistrovať (vpravo hore <b>REGITRÁCIA</b>). V pravej hornej časti je taktiež možnosť prepínať jazyky (slovenčina/angličtina).</p>
+                <p class="fw-normal">Na úvodnej stránke je možné vidieť formulár na prihlásenie. Ak ešte nemáte vytvorený účet, je možné sa zaregistrovať (vpravo hore <b>REGISTRÁCIA</b>). V pravej hornej časti je taktiež možnosť prepínať jazyky (slovenčina/angličtina).</p>
                 <p class="fw-normal">Každý prihlásený používateľ ma taktiež možnosť sa odhlásiť tlačidlom vpravo hore <b>ODHLÁSIŤ</b>. Následne je používateľ presmerovaný na hlavnú stránku s možnosťou prihlásenia sa.</p>
                 <p class="fw-normal">V našej aplikácii sú dve role a to študent a učiteľ. Od toho, akú rolu predstavuje používateľ, závisí, čo sa zobrazí po prihlásení.</p>
                 <h5 class = "mt-5 fw-bold">Prihlásený učiteľ</h5><br>
@@ -89,6 +93,30 @@
                 <p class="fw-normal">Na tejto stránke má študent možnosť vidieť aktuálne a minulé zadania. Pri každom zadaní vidí názov zadania, čas, do kedy je možné toto zadanie vypracovať, čas, ktorý mu zostáva, meno učiteľa, počet úloh a počet bodov. Po kliknutí na konkrétne zadanie je možné vidieť názov sady a po stlačení tlačidla GENEROVAŤ si môže vygenerovať úlohy. V prípade, že študent ešte nevyriešil príklad, je možné napísať odpoveď a odoslať. Na zápis odpovede môže použiť matematický editor, ktorý je možné zobraziť po stlačení tlačidla na konci riadku na zadávanie odpovedí. Následne môže vidieť, koľko bodov za danú úlohu získal. </p>
 
                 <a onclick="redirectToDownload()" target="_blank" class="btn button-color"><b>PDF</b></a>
+            </div>
+        </div>
+        </div>
+        <div id="enBody">
+            <div class="text-center">
+                <h1>User Manual for Using the Application</h1>
+            </div>
+            <div class="box-shadow rounded">
+                <div class="p-5">
+                    <p class="fw-normal">This application is used for entering mathematical problem files, generating them, entering solutions to these problems, and checking the correctness of the entered solutions.</p>
+                    <p class="fw-normal">On the home page, you can see a login form. If you don't have an account yet, you can register (top right <b>REGISTER</b>). There is also an option to switch languages (Slovak/English) in the upper right corner.</p>
+                    <p class="fw-normal">Each logged-in user also has the option to log out by clicking the button in the upper right corner <b>LOGOUT</b>. Afterwards, the user will be redirected to the main page with the option to log in.</p>
+                    <p class="fw-normal">In our application, there are two roles: student and teacher. Depending on the user's role, different content will be displayed after logging in.</p>
+                    <h5 class="mt-5 fw-bold">Logged-in Teacher</h5><br>
+                    <p class="fw-normal">If a teacher is logged in, they will see a page specific to them.</p>
+                    <p class="fw-normal">At the top, a table with students (ID, first name, last name, and email) is displayed, which can be sorted and exported to a CSV file.</p>
+                    <p class="fw-normal">In the next section, the teacher can enter LaTeX text that contains a set of exercises. They need to enter a title and confirm.</p>
+                    <p class="fw-normal">In the following section, there is an option to create a set of exercises. The teacher can define from which LaTeX files the students will generate exercises for solving. They need to enter a title, the maximum number of points for the task, and the period during which the specific set can generate exercises. If no date is specified, generating exercises from this set is open. Finally, they need to press the confirm button.</p>
+                    <h5 class="mt-5 fw-bold">Logged-in Student</h5><br>
+                    <p class="fw-normal">If a student is logged in, they will see a page specific to them.</p>
+                    <p class="fw-normal">On this page, the student can view current and past assignments. For each assignment, they can see the assignment title, deadline, time remaining, teacher's name, number of tasks, and number of points. By clicking on a specific assignment, they can see the set title, and by pressing the GENERATE button, they can generate tasks. If the student has not solved the exercise yet, they can write an answer and submit it. They can use a mathematical editor to write the answer, which can be displayed by clicking the button at the end of the answer input row. Afterwards, they can see how many points they earned for that task.</p>
+
+                    <a onclick="redirectToDownload()" target="_blank" class="btn button-color"><b>PDF</b></a>
+                </div>
             </div>
         </div>
     </div>
@@ -106,5 +134,22 @@
 
         function redirectToDownload() {
             window.location.href = '{{ env('APP_URL') }}/api/generate-pdf';
+        }
+
+        var lang = "SK";
+        document.getElementById("enBody").style.display = "none";
+        function changeLanguage() {
+            var langBtn = document.getElementById("lan");
+            if (lang == "SK") {
+                langBtn.innerHTML = "SK";
+                document.getElementById("enBody").style.display = "none";
+                document.getElementById("skBody").style.display = "block";
+                lang = "EN";
+            } else {
+                langBtn.innerHTML = "EN";
+                document.getElementById("enBody").style.display = "block";
+                document.getElementById("skBody").style.display = "none";
+                lang = "SK";
+            }
         }
     </script>
