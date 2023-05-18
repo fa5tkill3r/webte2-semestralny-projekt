@@ -3,6 +3,7 @@
 ## Linky
 - Aplikácia: https://site173.webte.fei.stuba.sk/
 - GitHub: https://github.com/fa5tkill3r/webte2-semestralny-projekt
+- Video: https://youtu.be/TTSsWNQA32s
 
 ## Prihlasovacie údaje
 ### Ucitel
@@ -46,5 +47,9 @@ Heslo: webte
 | docker balíček                                               |  16  | Nicolas    |   Low    |   ✅    |
 | používanie verzionovacieho systému všetkými členmi tímu      |  8   | All        |    -     |   ✅    |
 | finalizácia aplikácie                                        |  18  | All        |    -     |        |
+<<<<<<< HEAD
+| video                                                        |  8   | Rišo       |   Low    |    ✅   |
+=======
 | video                                                        |  8   | Rišo       |   Low    |   ✅    |
+>>>>>>> origin/master
 
