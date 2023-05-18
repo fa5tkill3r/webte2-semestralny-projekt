@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="dashboard-card">
-      <v-card-title>Students</v-card-title>
+      <v-card-title>{{$t('Students')}}</v-card-title>
       <v-card-text>
         <v-data-table :headers="headers" :items="students"></v-data-table>
       </v-card-text>
@@ -9,18 +9,9 @@
 
     <div class="flex-container">
       <v-card class="dashboard-card smaller-card">
-        <v-card-title>Task and Date Selection</v-card-title>
+        <v-card-title>{{$t('Makesetoftasks')}}</v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="taskName"
-            label="Task Name"
-            outlined
-            dense
-            class="task-name"
-            persistent-hint
-            hint="Enter a descriptive name for the task"
-          ></v-text-field>
-          <br />
+          <p>{{$t('Selectthetasksbelowtocreateataskset')}}</p>
           <div>
             <div v-for="task in tasks" :key="task.id">
               <v-checkbox
@@ -33,14 +24,24 @@
           </div>
           <br />
           <v-text-field
+            v-model="taskName"
+            :label="$t('TaskName')"
+            outlined
+            dense
+            class="task-name"
+            persistent-hint
+            :hint="$t('Enteradescriptivenameforthetask')"
+          ></v-text-field>
+          <br />
+          <v-text-field
             v-model="maxPoints"
-            label="Max Points"
+            :label="$t('MaxPoints')"
             outlined
             dense
             type="number"
             class="max-points"
             persistent-hint
-            hint="Enter the maximum points for the task"
+            :hint="$t('Enterthemaximumpointsforthetask')"
           ></v-text-field>
           <br />
           <div class="date-selection">
@@ -48,25 +49,25 @@
               <v-col cols="6">
                 <v-text-field
                   v-model="startDate"
-                  label="Start Date"
+                  :label="$t('StartDate')"
                   outlined
                   dense
                   type="date"
                   class="date-picker"
                   persistent-hint
-                  hint="Select the start date for the task"
+                  :hint="$t('Selectthestartdateforthetask')"
                 ></v-text-field>
               </v-col>
               <v-col cols="6">
                 <v-text-field
                   v-model="startTime"
-                  label="Start Time"
+                  :label="$t('StartTime')"
                   outlined
                   dense
                   type="time"
                   class="time-picker"
                   persistent-hint
-                  hint="Select the start time for the task"
+                  :hint="$t('Selectthestarttimeforthetask')"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -75,58 +76,58 @@
               <v-col cols="6">
                 <v-text-field
                   v-model="endDate"
-                  label="End Date"
+                  :label="$t('EndDate')"
                   outlined
                   dense
                   type="date"
                   class="date-picker"
                   persistent-hint
-                  hint="Select the end date for the task"
+                  :hint="$t('Selecttheenddateforthetask')"
                 ></v-text-field>
               </v-col>
               <v-col cols="6">
                 <v-text-field
                   v-model="endTime"
-                  label="End Time"
+                  :label="$t('EndTime')"
                   outlined
                   dense
                   type="time"
                   class="time-picker"
                   persistent-hint
-                  hint="Select the end time for the task"
+                  :hint="$t('Selecttheendtimeforthetask')"
                 ></v-text-field>
               </v-col>
             </v-row>
             <br />
-            <v-btn @click="submit" class="submit-button">Submit</v-btn>
+            <v-btn class="submit-button" @click="submit">{{$t('Submit')}}</v-btn>
           </div>
         </v-card-text>
       </v-card>
 
       <v-card class="dashboard-card smaller-card">
-        <v-card-title>Text Input</v-card-title>
+        <v-card-title>{{$t('AddnewLaTeXfile')}}</v-card-title>
         <v-card-text>
           <v-text-field
             v-model="taskNameTextInput"
-            label="Task Name"
+            :label="$t('TaskName')"
             outlined
             dense
             class="task-name"
             persistent-hint
-            hint="Enter a descriptive name for the task"
+            :hint="$t('Enteradescriptivenameforthetask')"
           ></v-text-field>
           <br />
           <v-textarea
             v-model="textInput"
-            label="LaTeX Text Input"
+            :label="$t('LaTeXTextInput')"
             outlined
             rows="7"
             class="text-input"
             persistent-hint
-            hint="Enter the LaTeX text for the task, e.g., equations, formulas"
+            :hint="$t('EntertheLaTeXtextforthetask')"
           ></v-textarea>
           <br />
-          <v-btn @click="submitText" class="submit-button">Submit Text</v-btn>
+          <v-btn class="submit-button" @click="submitText">{{$t('SubmitText')}}</v-btn>
         </v-card-text>
       </v-card>
     </div>
@@ -146,11 +147,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { ky } from '@/lib/ky'
+import { t } from '@/lib/i18n'
 
 const headers = ref([
-  { title: 'First Name', key: 'first_name' },
-  { title: 'Last Name', key: 'last_name' },
-  { title: 'Email', key: 'email' },
+  { title: 'ID', key: 'id' },
+  { title: t('FirstName'), key: 'first_name' },
+  { title: t('LastName'), key: 'last_name' },
+  { title: t('Email'), key: 'email' },
 ])
 
 const tasks = ref([])
@@ -183,17 +186,17 @@ const submit = async () => {
   const selectedTaskIds = selectedTasks.value
 
   if (!selectedTaskIds.length) {
-    showErrorSnackbar('Please select at least one task.')
+    showErrorSnackbar(t('Pleaseselectatleastonetask'))
     return
   }
 
   if (!taskName.value.trim()) {
-    showErrorSnackbar('Please enter a task name.')
+    showErrorSnackbar(t('Pleaseenterataskname'))
     return
   }
 
   if (maxPoints.value < selectedTaskIds.length) {
-    showErrorSnackbar('Max points should be greater than or equal to the number of selected tasks.')
+    showErrorSnackbar(t('Maxpointsshouldbegreaterthanorequaltothenumberofselectedtasks'))
     return
   }
 
@@ -227,7 +230,7 @@ const submit = async () => {
       // Handle the error appropriately (e.g., display an error message)
     }
   } else {
-    showErrorSnackbar('Invalid date or time selected.')
+    showErrorSnackbar(t('Invaliddateortimeselected'))
   }
 }
 
@@ -243,10 +246,10 @@ const submitText = async () => {
     if (response.ok) {
       console.log('Text submitted successfully')
     } else {
-      showErrorSnackbar('Failed to submit text')
+      console.log('Failed to submit text')
     }
   } else {
-    showErrorSnackbar('Both task name and text input are required')
+    showErrorSnackbar(t('Bothtasknameandtextinputarerequired'))
   }
 }
 
