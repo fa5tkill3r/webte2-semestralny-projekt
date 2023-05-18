@@ -8,7 +8,7 @@
           color='red'
           text-color='white'
         >
-          Ukončené
+          {{$t('Ukoncene')}}
         </v-chip>
       </div>
 
@@ -22,7 +22,7 @@
             <v-btn
               @click='generate(setTask.task_id)'
             >
-              Generovať
+              {{$t('Generovat')}}
             </v-btn>
           </v-col>
           <v-spacer/>

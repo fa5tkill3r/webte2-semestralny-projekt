@@ -54,5 +54,19 @@
   "Pleaseenterataskname": "Prosím zadajde názov sady.",
   "Maxpointsshouldbegreaterthanorequaltothenumberofselectedtasks": "Maximálne body by mali byť väčšie alebo rovnaké ako poćet vybraných súborov.",
   "Invaliddateortimeselected": "Neplatný rozsah dátumov.",
-  "Bothtasknameandtextinputarerequired": "Názov ani LaTeX text nemôže byť prázdny."
+  "Bothtasknameandtextinputarerequired": "Názov ani LaTeX text nemôže byť prázdny.",
+  "Teacher": "Učiteľ",
+  "Ulohy": "Úlohy",
+  "zostava": "Zostáva:",
+  "Currentassignments": "Aktuálne zadania",
+  "Youhavenocurrentassignments": "Nemáš žiadne aktuálne zadania.",
+  "Pastassignments": "Minulé zadania",
+  "Youhavenopastassignments": "Nemáš žiadne minulé zadania.",
+  "Ukoncene": "Ukončené",
+  "Generovat": "Generovať",
+  "Thisfieldisrequired": "Povinný údaj",
+  "Passwordsmustmatch": "Heslá sa nezhodujú",
+  "Youhavebeenregisteredsuccessfully": "Boli ste úspešne zaregistorovaný",
+  "Success": "Hotovo",
+  "Error": "Chyba"
 }

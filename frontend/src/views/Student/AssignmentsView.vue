@@ -3,7 +3,7 @@
     v-if='assignments'
   >
 
-    <h1 class='mb-3'>Current assignments</h1>
+    <h1 class='mb-3'>{{$t('Currentassignments')}}</h1>
     <div
       v-if='assignments'
     >
@@ -27,12 +27,12 @@
       <div
         v-if='currentAssignments?.length === 0'
       >
-        You have no current assignments.
+        {{$t('Youhavenocurrentassignments')}}
       </div>
     </div>
 
 
-    <h1 class='mb-3'>Past assignments</h1>
+    <h1 class='mb-3'>{{$t('Pastassignments')}}</h1>
     <div
       v-if='assignments'
     >
@@ -55,7 +55,7 @@
       <div
         v-if='pastAssignments?.length === 0'
       >
-        You have no past assignments.
+        {{$t('Youhavenopastassignments')}}
       </div>
     </div>
   </v-container>

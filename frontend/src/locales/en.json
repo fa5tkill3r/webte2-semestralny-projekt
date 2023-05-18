@@ -54,5 +54,19 @@
   "Pleaseenterataskname": "Please enter a task name.",
   "Maxpointsshouldbegreaterthanorequaltothenumberofselectedtasks": "Max points should be greater than or equal to the number of selected tasks.",
   "Invaliddateortimeselected": "Invalid date or time selected.",
-  "Bothtasknameandtextinputarerequired": "Both task name and text input are required."
+  "Bothtasknameandtextinputarerequired": "Both task name and text input are required.",
+  "Teacher": "Teacher",
+  "Ulohy": "Tasks",
+  "zostava": "Time left:",
+  "Currentassignments": "Current assignments",
+  "Youhavenocurrentassignments": "You have no current assignments.",
+  "Pastassignments": "Past assignments",
+  "Youhavenopastassignments": "You have no past assignments.",
+  "Ukoncene": "Finished",
+  "Generovat": "Generate",
+  "Thisfieldisrequired": "This field is required",
+  "Passwordsmustmatch": "Passwords must match",
+  "Youhavebeenregisteredsuccessfully": "You have been registered successfully",
+  "Success": "Success",
+  "Error": "Error"
 }

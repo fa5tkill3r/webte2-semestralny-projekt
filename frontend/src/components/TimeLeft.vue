@@ -7,7 +7,7 @@
       class='mr-2'
 
     >{{ severity === 'green' ? 'mdi-clock-time-four' : 'mdi-clock-alert' }}</v-icon>
-    <span>Zostava: {{ timeLeft }}</span>
+    <span>{{$t('zostava')}} {{ timeLeft }}</span>
   </div>
 </template>
 

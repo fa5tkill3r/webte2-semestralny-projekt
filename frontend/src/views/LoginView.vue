@@ -63,6 +63,7 @@ import { useAppStore } from '@/store/app'
 import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate'
 import router from '@/router'
+import { t } from '@/lib/i18n'
 
 const loading = ref(false)
 
@@ -82,8 +83,8 @@ if (store.registeredNow) {
   alert.value = {
     show: true,
     type: 'success',
-    title: 'Success',
-    text: 'You have been registered successfully',
+    title: t('Success'),
+    text: t('Youhavebeenregisteredsuccessfully'),
     icon: 'mdi-check-circle-outline',
   }
   store.registeredNow = false
@@ -92,7 +93,7 @@ if (store.registeredNow) {
 
 const validationSchema = yup.object().shape({
   email: yup.string().required().email(),
-  password: yup.string().required('Password is required'),
+  password: yup.string().required(t('Thisfieldisrequired')),
 })
 
 const { handleSubmit, validate } = useForm({
@@ -113,7 +114,7 @@ const onSubmit = handleSubmit(async (values) => {
     alert.value = {
       show: true,
       type: 'error',
-      title: 'Error',
+      title: t('Error'),
       text: error.message,
       icon: 'mdi-alert-circle-outline',
     }

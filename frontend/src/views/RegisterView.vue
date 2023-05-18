@@ -84,19 +84,20 @@ import { ref } from 'vue'
 import { ky } from '@/lib/ky'
 import router from '@/router'
 import { useAppStore } from '@/store/app'
+import { t } from '@/lib/i18n'
 
 const form = ref(null)
 const store = useAppStore()
 const loading = ref(false)
 
 const validationSchema = yup.object().shape({
-  firstName: yup.string().required('This field is required'),
-  lastName: yup.string().required('This field is required'),
+  firstName: yup.string().required(t('Thisfieldisrequired')),
+  lastName: yup.string().required(t('Thisfieldisrequired')),
   email: yup.string().required().email(),
-  password: yup.string().required('Password is required'),
+  password: yup.string().required(t('Thisfieldisrequired')),
   passwordConfirmation: yup.string()
-    .oneOf([yup.ref('password')], 'Passwords must match')
-    .required('Password confirmation is required'),
+    .oneOf([yup.ref('password')], t('Passwordsmustmatch'))
+    .required(t('Thisfieldisrequired')),
 })
 
 const { handleSubmit, validate } = useForm({

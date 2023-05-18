@@ -40,7 +40,7 @@
             <div class='mr-2'>
               <v-icon>mdi-school</v-icon>
             </div>
-            Teacher
+            {{$t('Teacher')}}
           </template>
           {{ assignment.teacher.first_name }} {{ assignment.teacher.last_name }}
         </v-list-item>
@@ -50,7 +50,7 @@
             <div class='mr-2'>
               <v-icon>mdi-note-edit</v-icon>
             </div>
-            Ulohy
+            {{$t('Ulohy')}}
           </template>
           {{ assignment.tasks_done }}/{{ assignment.tasks_count }}
         </v-list-item>
