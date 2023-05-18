@@ -71,13 +71,13 @@ const assignments = ref(null)
 const currentAssignments = computed(() => {
   if (assignments?.value.length === 0 || !assignments?.value)
     return []
-  return assignments?.value?.filter((x) => new Date(x.set.end) > new Date() && x.finished_at === null)
+  return assignments?.value?.filter((x) => (x.set.end === null || new Date(x.set.end) > new Date()) && x.finished_at === null)
 })
 
 const pastAssignments = computed(() => {
   if (assignments?.value.length === 0 || !assignments?.value)
     return []
-  return assignments?.value?.filter((x) => new Date(x.set.end) < new Date() || x.finished_at !== null)
+  return assignments?.value?.filter((x) => x.finished_at !== null || (new Date(x.set.end) < new Date() && x.set.end !== null))
 })
 
 ky.get('assignment').json().then((data) => {

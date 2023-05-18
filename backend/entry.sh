@@ -6,6 +6,7 @@ until mysql -h"mysql" -u"webte" -p"webte" -e "quit" >/dev/null 2>&1; do
 done
 
 if [ ! -f /var/www/html/public/migration.temp ]; then
-    php artisan migrate --force
+    php artisan migrate:fresh --force
+    php artisan db:seed --force
     touch /var/www/html/public/migration.temp
 fi

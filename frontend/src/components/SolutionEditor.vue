@@ -10,7 +10,9 @@
       <v-btn
         v-if='!disabled'
         height='100%'
-        @click='$emit("update", mf.value)'
+        :disabled='loading'
+        :loading='loading'
+        @click='update'
       >
         {{$t('confirm')}}
       </v-btn>
@@ -42,10 +44,11 @@ const props = defineProps({
 })
 
 
-defineEmits(['update'])
+const emit = defineEmits(['update'])
 
 const mf = ref(null)
 const mfDiv = ref(null)
+const loading = ref(false)
 
 const boxShadow = computed(() => {
   if (props.correct === null) {
@@ -65,6 +68,11 @@ watch(() => props.disabled, (disabled) => {
   mf.value.disabled = disabled
 })
 
+
+const update = () => {
+  loading.value = true
+  emit('update', mf.value.value)
+}
 
 onMounted(() => {
   mf.value = new MathfieldElement({

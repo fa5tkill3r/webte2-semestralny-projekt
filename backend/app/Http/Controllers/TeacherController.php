@@ -10,7 +10,10 @@ class TeacherController extends Controller
     public function parse(Request $request) {
         $text = $request->getContent();
         $taskName = $request->taskname;
+        $this->parseTex($text, $taskName);
+    }
 
+    public static function parseTex ($text, $taskName) {
         $regex = '/\\\\section\\*{([^}]*)}([\\s\\S]*?)(?=\\\\section\\*{[^}]*}|\\\\end{document})/';
         preg_match_all($regex, $text, $matches);
 
@@ -70,6 +73,8 @@ class TeacherController extends Controller
                 $task->delete();
                 throw $e;
             }
+
+            return $task;
         } else {
             echo "No matches found.";
         }
