@@ -50,8 +50,10 @@ class TeacherController extends Controller
                         throw new \Exception("Task content not found.");
                     }
 
-                    if (preg_match('/\\\\begin\{solution}([\\s\\S]*?)\\\\end\{solution}/', $sectionContent, $solution_match)) {
+                    if (preg_match('/\\\\begin\{solution\}\s*\\\\begin\{equation\*\}([\s\S]*?)\\\\end\{equation\*\}\s*\\\\end\{solution\}/', $sectionContent, $solution_match)) {
                         $solution_content = $solution_match[1];
+                        $solution_content = ltrim($solution_content);
+                        $solution_content = rtrim($solution_content);
 
                         echo "Solution content: " . $solution_content . "\n";
                     } else {
