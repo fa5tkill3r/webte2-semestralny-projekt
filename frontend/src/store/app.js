@@ -43,7 +43,6 @@ export const useAppStore = defineStore('app', {
       try {
         await ky.post('auth/logout')
         this.user = null
-        this.token = null
         sessionStorage.removeItem('token')
       } catch (error) {
         return error

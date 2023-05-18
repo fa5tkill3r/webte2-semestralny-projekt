@@ -12,7 +12,7 @@ import TeacherView from '@/views/Teacher/TeacherView.vue'
 const store = useAppStore()
 
 const component = computed(() => {
-  if (store.role === 'student') {
+  if (store.user?.role === 'student') {
     return AssignmentsView
   } else {
     return TeacherView
