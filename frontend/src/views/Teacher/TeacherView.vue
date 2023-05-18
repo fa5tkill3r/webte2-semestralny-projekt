@@ -5,6 +5,9 @@
       <v-card-text>
         <v-data-table :headers="headers" :items="students"></v-data-table>
       </v-card-text>
+      <v-card-actions>
+        <v-btn @click="exportToCSV" color="primary">{{$t('CSV')}}</v-btn>
+      </v-card-actions>
     </v-card>
 
     <div class="flex-container">
@@ -148,6 +151,7 @@
 import { onMounted, ref } from 'vue'
 import { ky } from '@/lib/ky'
 import { t } from '@/lib/i18n'
+import Papa from 'papaparse';
 
 const headers = ref([
   { title: 'ID', key: 'id' },
@@ -257,6 +261,26 @@ const showErrorSnackbar = (message) => {
   snackbarMessage.value = message
   errorSnackbar.value = true
 }
+
+const exportToCSV = () => {
+  const data = students.value.map(student => ({
+    ID: student.id,
+    First_Name: student.first_name,
+    Last_Name: student.last_name,
+    Email: student.email,
+    Role: student.role,
+  }));
+
+  const csv = Papa.unparse(data);
+
+  const csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const csvURL = URL.createObjectURL(csvBlob);
+  const tempLink = document.createElement('a');
+  tempLink.href = csvURL;
+  tempLink.setAttribute('download', 'students.csv');
+  tempLink.click();
+}
+
 </script>
 
 <style scoped>
