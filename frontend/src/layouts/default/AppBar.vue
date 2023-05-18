@@ -64,6 +64,7 @@ const logout = async () => {
   try {
     loading.value = true
     await store.logout()
+    sessionStorage.removeItem('token')
     await router.push({ name: 'Login' })
   } catch (error) {
     console.error(error)
