@@ -46,10 +46,6 @@ Heslo: webte
 | export do csv a pdf                                          |  10  | Andrea     |   Low    |   ✅    |
 | docker balíček                                               |  16  | Nicolas    |   Low    |   ✅    |
 | používanie verzionovacieho systému všetkými členmi tímu      |  8   | All        |    -     |   ✅    |
-| finalizácia aplikácie                                        |  18  | All        |    -     |        |
-<<<<<<< HEAD
-| video                                                        |  8   | Rišo       |   Low    |    ✅   |
-=======
+| finalizácia aplikácie                                        |  18  | All        |    -     |   ✅    |
 | video                                                        |  8   | Rišo       |   Low    |   ✅    |
->>>>>>> origin/master
 
