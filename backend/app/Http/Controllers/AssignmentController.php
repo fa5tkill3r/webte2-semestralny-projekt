@@ -229,6 +229,15 @@ class AssignmentController extends Controller
 
         $this->checkSolution( $assignmentTaskVariant, $taskVariantId);
 
+        $setTasks = SetTask::where('set_id', $assignmentTaskVariant->assignment()->first()->set_id)->get();
+        $assignmentTaskVariants = AssignmentTaskVariant::where('assignment_id', $assignmentTaskVariant->assignment_id)->get();
+
+        if ($setTasks->count() == $assignmentTaskVariants->count()) {
+            $assignment = Assignment::find($assignmentTaskVariant->assignment_id);
+            $assignment->finished_at = now();
+            $assignment->save();
+        }
+
         return $this->getAssignment($request, $assignmentTaskVariant->assignment_id);
     }
 
