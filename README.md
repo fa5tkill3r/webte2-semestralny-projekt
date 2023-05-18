@@ -14,5 +14,5 @@
 | docker balíček                                               |  16  | Nicolas    |   Low    |   ✅    |
 | používanie verzionovacieho systému všetkými členmi tímu      |  8   | All        |    -     |   ✅    |
 | finalizácia aplikácie                                        |  18  | All        |    -     |        |
-| video                                                        |  8   | Rišo       |   Low    |        |
+| video                                                        |  8   | Rišo       |   Low    |    ✅   |
 
