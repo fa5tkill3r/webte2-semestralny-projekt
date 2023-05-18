@@ -23,11 +23,14 @@
     </v-card-title>
     <v-card-subtitle>
 
-      <div class='d-flex flex-column'>
+      <div v-if='assignment.set.end' class='d-flex flex-column'>
         <span>{{ formattedDate }}</span>
         <span>
            <TimeLeft :date='assignment.set.end' />
         </span>
+      </div>
+      <div v-else>
+        <span>{{ $t('unlimited') }}</span>
       </div>
 
     </v-card-subtitle>
@@ -40,7 +43,7 @@
             <div class='mr-2'>
               <v-icon>mdi-school</v-icon>
             </div>
-            {{$t('Teacher')}}
+            {{ $t('Teacher') }}
           </template>
           {{ assignment.teacher.first_name }} {{ assignment.teacher.last_name }}
         </v-list-item>
@@ -50,7 +53,7 @@
             <div class='mr-2'>
               <v-icon>mdi-note-edit</v-icon>
             </div>
-            {{$t('Ulohy')}}
+            {{ $t('Ulohy') }}
           </template>
           {{ assignment.tasks_done }}/{{ assignment.tasks_count }}
         </v-list-item>

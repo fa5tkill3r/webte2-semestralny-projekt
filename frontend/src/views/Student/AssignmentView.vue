@@ -73,6 +73,8 @@ const points = (setTask) => {
 const assignment = ref({})
 
 const passed = computed(() => {
+  if (!assignment.value.set.end)
+    return false
   return new Date(assignment.value.set.end) < new Date()
 })
 
