@@ -7,7 +7,7 @@
 | dvojjazyčnosť                                                |  6   | Rado       |    2     |   ✅    |
 | prihlasovanie sa do aplikácie (študent, učiteľ)              |  6   | Nicolas    |    1     |   ✅    |
 | GUI a funkcionalita študenta (vrátane matematického editora) |  16  | Nicolas    |    3     |   ✅    |
-| 1. čásť GUI a funkcionalita učiteľa                          |  8   | Rado       |    2     |        |
+| 1. čásť GUI a funkcionalita učiteľa                          |  8   | Rado       |    2     |   ✅    |
 | 2. čásť GUI a funkcionalita učiteľa                          |  8   | Rišo       |    2     |        |
 | kontrola správnosti výsledku                                 |  16  | Andrea     |  Normal  |   ✅    |
 | export do csv a pdf                                          |  10  | Andrea     |   Low    |        |
