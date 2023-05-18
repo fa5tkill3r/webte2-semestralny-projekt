@@ -1,5 +1,37 @@
 # Webte2 Semestralny projekt
 
+## Linky
+- Aplikácia: https://site173.webte.fei.stuba.sk/
+- GitHub: https://github.com/fa5tkill3r/webte2-semestralny-projekt
+
+## Prihlasovacie údaje
+### Ucitel
+```
+Email: pan.ucitel@stuba.sk
+Heslo: password
+```
+### Student
+```
+Email: xmrkvicka@stuba.sk
+Heslo: password
+```
+
+## Docker
+Spustenie aplikacie cez docker-compose
+```sh
+docker-compose pull
+docker-compose up -d
+```
+
+## Databáza
+```
+Databáza: semestralne_zadanie
+Meno: webte
+Heslo: webte
+```
+
+
+
 ## Assigment
 
 | úloha                                                        | body | pridadenie | priorita | Status |
@@ -14,5 +46,5 @@
 | docker balíček                                               |  16  | Nicolas    |   Low    |   ✅    |
 | používanie verzionovacieho systému všetkými členmi tímu      |  8   | All        |    -     |   ✅    |
 | finalizácia aplikácie                                        |  18  | All        |    -     |        |
-| video                                                        |  8   | Rišo       |   Low    |        |
+| video                                                        |  8   | Rišo       |   Low    |   ✅    |
 
