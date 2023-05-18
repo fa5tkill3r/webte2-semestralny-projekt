@@ -81,6 +81,12 @@ class AssignmentController extends Controller
         $assignmentTaskVariants = AssignmentTaskVariant::where('assignment_id', $id)->get();
         $assignment = Assignment::find($id);
 
+        if ($assignment->user_id != auth()->user()->id && auth()->user()->role != 'teacher') {
+            return response()->json([
+                'message' => 'You are not allowed to view this assignment',
+            ], 403);
+        }
+
         $assignment->set = $assignment->set()->first();
         $assignment->set->set_tasks = $assignment->set->setTasks()->get();
         $assignment->set->set_tasks->each(function ($setTask) use ($assignmentTaskVariants) {
@@ -132,6 +138,8 @@ class AssignmentController extends Controller
         });
 
         $assignments = $assignments->filter(function ($assignment) {
+            if ($assignment->set->start == null)
+                return true;
             return $assignment->set->start <= now();
         });
 
