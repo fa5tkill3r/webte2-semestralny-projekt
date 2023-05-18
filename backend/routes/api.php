@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +47,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/teacher/parse', [TeacherController::class, 'parse']);
     Route::get('/students', [StudentController::class, 'getStudents']);
     Route::get('/tasks', [AssignmentController::class, 'getAllTasks']);
+    Route::post('/sets', [SetController::class, 'createSet']);
 });

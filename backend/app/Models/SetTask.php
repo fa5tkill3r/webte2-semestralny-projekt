@@ -11,18 +11,15 @@ class SetTask extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'set_id',
-        'task_id',
-    ];
+    protected $fillable = ['set_id', 'task_id', 'max_points'];
 
     public function set()
     {
-        return $this->belongsTo(Set::class);
+        return $this->belongsTo(Set::class, 'set_id');
     }
-
+    
     public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Task::class, 'task_id');
     }
 }

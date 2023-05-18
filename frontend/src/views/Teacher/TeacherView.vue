@@ -32,17 +32,17 @@
             </div>
           </div>
           <br />
-<v-text-field
-  v-model="maxPoints"
-  label="Max Points"
-  outlined
-  dense
-  type="number"
-  class="max-points"
-  persistent-hint
-  hint="Enter the maximum points for the task"
-></v-text-field>
-<br />
+          <v-text-field
+            v-model="maxPoints"
+            label="Max Points"
+            outlined
+            dense
+            type="number"
+            class="max-points"
+            persistent-hint
+            hint="Enter the maximum points for the task"
+          ></v-text-field>
+          <br />
           <div class="date-selection">
             <v-row>
               <v-col cols="6">
@@ -176,40 +176,60 @@ onMounted(async () => {
   tasks.value = responseTwo.tasks
 })
 
-const maxPoints = ref(0);
+const maxPoints = ref(0)
 
 // Update the 'submit' function
-const submit = () => {
-  const selectedTaskIds = selectedTasks.value;
+const submit = async () => {
+  const selectedTaskIds = selectedTasks.value
 
   if (!selectedTaskIds.length) {
-    showErrorSnackbar('Please select at least one task.');
-    return;
+    showErrorSnackbar('Please select at least one task.')
+    return
   }
 
   if (!taskName.value.trim()) {
-    showErrorSnackbar('Please enter a task name.');
-    return;
+    showErrorSnackbar('Please enter a task name.')
+    return
   }
 
   if (maxPoints.value < selectedTaskIds.length) {
-    showErrorSnackbar('Max points should be greater than or equal to the number of selected tasks.');
-    return;
+    showErrorSnackbar('Max points should be greater than or equal to the number of selected tasks.')
+    return
   }
 
-  if (startDate.value && startTime.value && endDate.value && endTime.value && startDate.value <= endDate.value) {
-    const startDateTime = `${startDate.value} ${startTime.value}:00`;
-    const endDateTime = `${endDate.value} ${endTime.value}:00`;
+  if (
+    startDate.value &&
+    startTime.value &&
+    endDate.value &&
+    endTime.value &&
+    startDate.value <= endDate.value
+  ) {
+    const startDateTime = `${startDate.value} ${startTime.value}:00`
+    const endDateTime = `${endDate.value} ${endTime.value}:00`
 
-    console.log('Selected task IDs:', selectedTaskIds);
-    console.log('Task Name:', taskName.value);
-    console.log('Start Date and Time:', startDateTime);
-    console.log('End Date and Time:', endDateTime);
-    console.log('Max Points:', maxPoints.value);
+    try {
+      const response = await ky
+        .post('sets', {
+          json: {
+            name: taskName.value,
+            start: startDateTime,
+            end: endDateTime,
+            tasks: selectedTaskIds,
+            max_points: maxPoints.value,
+          },
+        })
+        .json()
+
+      console.log('Set created successfully:', response.set)
+      // You can perform any additional actions or display a success message here
+    } catch (error) {
+      console.error('Failed to create set:', error)
+      // Handle the error appropriately (e.g., display an error message)
+    }
   } else {
-    showErrorSnackbar('Invalid date or time selected.');
+    showErrorSnackbar('Invalid date or time selected.')
   }
-};
+}
 
 const submitText = async () => {
   if (taskNameTextInput.value && textInput.value) {
@@ -304,4 +324,3 @@ const showErrorSnackbar = (message) => {
   color: #546e7a;
 }
 </style>
-

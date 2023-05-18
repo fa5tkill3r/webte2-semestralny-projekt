@@ -13,11 +13,7 @@ class Set extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'max_points',
-    ];
+    protected $fillable = ['name', 'start', 'end', 'created_by', 'max_points'];
 
     /**
      * @return BelongsToMany
