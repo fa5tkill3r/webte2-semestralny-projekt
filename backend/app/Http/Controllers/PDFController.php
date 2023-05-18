@@ -17,7 +17,7 @@ class PDFController extends Controller
 
        $dom = new DOMDocument();
        libxml_use_internal_errors(true);
-       $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+       $dom->loadHTML($html);
        libxml_use_internal_errors(false);
 
        $xpath = new DOMXPath($dom);
