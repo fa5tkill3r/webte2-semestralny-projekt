@@ -72,7 +72,7 @@
         <div class = "box-shadow rounded">
             <div class = "p-2">
                 <p>Táto aplikácia slúži na zadávanie súborov s matematickými úlohami, ich generovanie, zadávanie riešení týchto úloh a následnú kontrolu správnosti zadaných riešení.</p>
-                <a href="{{ route('generate.pdf') }}" target="_blank" class="btn button-color"><b>PDF</b></a>
+                <a onclick="redirectToDownload()" target="_blank" class="btn button-color"><b>PDF</b></a>
             </div>
         </div>
     </div>
@@ -86,5 +86,9 @@
 
         function redirectToRegister() {
             window.location.href = '{{ env('FE_URL') }}/register';
+        }
+
+        function redirectToDownload() {
+            window.location.href = '{{ env('APP_URL') }}/api/generate-pdf';
         }
     </script>
